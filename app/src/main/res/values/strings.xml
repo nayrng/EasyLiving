@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EasyLiving</string>
+    <string name="title_activity_chores">ChoresActivity</string>
 </resources>

@@ -7,7 +7,7 @@
     tools:context=".newAccount">
 
     <EditText
-        android:id="@+id/emailText3"
+        android:id="@+id/emailText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordText3"
+        android:id="@+id/passwordText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
@@ -28,15 +28,15 @@
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText3" />
+        app:layout_constraintTop_toBottomOf="@+id/emailText2" />
 
     <Button
         android:id="@+id/loginBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="36dp"
-        android:text="Login"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="44dp"
+        android:text="Create a new account"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText3" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordText2" />
 </android.support.constraint.ConstraintLayout>

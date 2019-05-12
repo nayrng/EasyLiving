@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.loginBtn);
         newAccount = findViewById(R.id.newAccountBtn);
         firebaseAuth = FirebaseAuth.getInstance();
+        Log.d("testing", "started main");
 
         newAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

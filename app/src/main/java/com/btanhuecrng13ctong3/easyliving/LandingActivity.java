@@ -39,15 +39,13 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
-        Button logout = findViewById(R.id.logoutbtn);
+        Button logout = findViewById(R.id.createGroup);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(LandingActivity.this, "Sign out successful!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViewGroupActivity.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,19 +24,22 @@ public class newAccount extends AppCompatActivity {
     EditText userPW;
     Button registerAccount;
     FirebaseAuth firebaseAuth;
+    ProgressBar loginProg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_account);
+        loginProg = findViewById(R.id.createBar);
         userEmail = findViewById(R.id.emailText2);
         userPW = findViewById(R.id.passwordText2);
         registerAccount = findViewById(R.id.loginBtn2);
         firebaseAuth = FirebaseAuth.getInstance();
+        loginProg.setVisibility(View.INVISIBLE);
         registerAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                loginProg.setVisibility(View.VISIBLE);
                 if(TextUtils.isEmpty(userEmail.getText())){
                     Toast.makeText(newAccount.this, "Please enter a valid email", Toast.LENGTH_SHORT).show(); //displays notification
                     return;//prevents the app from running any further
@@ -50,6 +54,7 @@ public class newAccount extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    loginProg.setVisibility(View.INVISIBLE);
                                     // Sign in success, update UI with the signed-in user's information
                                     //Log.d(TAG, "createUserWithEmail:success");
                                     //FirebaseUser user = firebaseAuth.getCurrentUser(); <--Firebase Code IDK what it does
@@ -58,6 +63,7 @@ public class newAccount extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
                                     startActivity(intent);
                                 } else {
+                                    loginProg.setVisibility(View.INVISIBLE);
                                     // If sign in fails, display a message to the user.
                                     //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                     Toast.makeText(newAccount.this, "Registration failed, please try again.", Toast.LENGTH_SHORT).show();

@@ -54,10 +54,10 @@
         android:layout_marginTop="35dp"
         android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoutbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/createGroup" />
 
     <Button
-        android:id="@+id/logoutbtn"
+        android:id="@+id/createGroup"
         android:layout_width="139dp"
         android:layout_height="137dp"
         android:layout_marginStart="35dp"

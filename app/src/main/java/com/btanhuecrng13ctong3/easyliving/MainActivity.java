@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button newAccount;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
+    ProgressBar loginProg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         userPW = findViewById(R.id.passwordText);
         login = findViewById(R.id.loginBtn);
         newAccount = findViewById(R.id.newAccountBtn);
+        loginProg = findViewById(R.id.loginBar);
         firebaseAuth = FirebaseAuth.getInstance();
         Log.d("testing", "started main");
 
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else{
             Log.d("Tag","No user currently logged in");
+            loginProg.setVisibility(View.INVISIBLE);
         }
 
 
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                loginProg.setVisibility(View.VISIBLE);
                 if(TextUtils.isEmpty(userEmail.getText())){
                     Toast.makeText(MainActivity.this, "Please enter a valid email", Toast.LENGTH_SHORT).show(); //displays notification
                     return;//prevents the app from running any further
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Log.d(TAG, "createUserWithEmail:success");
                                     //FirebaseUser user = firebaseAuth.getCurrentUser(); <--Firebase Code IDK what it does
                                     //updateUI(user);<--Firebase Code IDK what it does
+                                    loginProg.setVisibility(View.INVISIBLE);
                                     Toast.makeText(MainActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
                                     startActivity(intent);
@@ -83,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
                                     Toast.makeText(MainActivity.this, "Login failed, please try again.", Toast.LENGTH_SHORT).show();
+                                    loginProg.setVisibility(View.INVISIBLE);
                                     //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",<--Firebase Code IDK what it does
                                     //       Toast.LENGTH_SHORT).show();<--Firebase Code IDK what it does
                                     //updateUI(null);<--Firebase Code IDK what it does

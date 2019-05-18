@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "1003064802672-gbonlcab4d5t0d0mroa42m4avaplq6va.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.btanhuecrng13ctong3.easyliving",
+            "certificate_hash": "12494c94b464f6edce476d3c813c0c676175620a"
+          }
+        },
+        {
           "client_id": "1003064802672-2klf7qkst4rcbp4t8170a9ohge0om23t.apps.googleusercontent.com",
           "client_type": 3
         }

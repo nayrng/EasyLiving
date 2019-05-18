@@ -7,12 +7,12 @@
     tools:context=".LandingActivity">
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/apibtn"
         android:layout_width="139dp"
         android:layout_height="137dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="35dp"
-        android:text="Button"
+        android:text="eee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +34,7 @@
         android:layout_marginEnd="35dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9" />
+        app:layout_constraintTop_toBottomOf="@+id/apibtn" />
 
     <Button
         android:id="@+id/buttonChores"
@@ -54,15 +54,15 @@
         android:layout_marginTop="35dp"
         android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/logoutbtn" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/logoutbtn"
         android:layout_width="139dp"
         android:layout_height="137dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="35dp"
-        android:text="Button"
+        android:text="logout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonChores" />
 

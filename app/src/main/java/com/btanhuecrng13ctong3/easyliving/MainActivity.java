@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     EditText userEmail;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button login;
     Button newAccount;
     FirebaseAuth firebaseAuth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
         newAccount = findViewById(R.id.newAccountBtn);
         firebaseAuth = FirebaseAuth.getInstance();
         Log.d("testing", "started main");
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if( user != null){
+            Toast.makeText(MainActivity.this, "Welcome Back!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            Log.d("Tag","No user currently logged in");
+        }
+
 
         newAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     //Log.w(TAG, "createUserWithEmail:failure", task.getException());

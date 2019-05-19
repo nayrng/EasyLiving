@@ -48,6 +48,15 @@ public class LandingActivity extends AppCompatActivity {
                 //finish();
             }
         });
+
+        Button join_group = findViewById(R.id.JoinGroup);
+        join_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), JoinGroup.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

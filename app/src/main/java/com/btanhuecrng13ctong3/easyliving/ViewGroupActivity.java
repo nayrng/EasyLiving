@@ -47,10 +47,12 @@ public class ViewGroupActivity extends AppCompatActivity {
 //                    String user = snapShot.child("")
 //                    String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
                     String user = snapShot.child("USER_ID").getValue(String.class);
+                    ArrayList<FirebaseUser> list = (ArrayList<FirebaseUser>) snapShot.child("users").getValue();
+                    ArrayList<String> chores = (ArrayList<String>) snapShot.child("chores").getValue();
                     String group_name = snapShot.child("groupName").getValue(String.class);
                     String group_pass = snapShot.child("groupPass").getValue(String.class);
                     //
-                    GROUPS_OBJECT obj = new GROUPS_OBJECT(user,group_name,group_pass);
+                    GROUPS_OBJECT obj = new GROUPS_OBJECT(user, list, chores, group_name,group_pass);
                     groups.add(obj);
 
                 }
@@ -75,7 +77,11 @@ public class ViewGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 user = firebaseAuth.getCurrentUser();
-                databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(),groupName.getText().toString(),groupPass.getText().toString()));
+                ArrayList<FirebaseUser> users = new ArrayList<FirebaseUser>();
+                users.add(user);
+                ArrayList<String> chores = new ArrayList<>();
+//                databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(),groupName.getText().toString(),groupPass.getText().toString()));
+                databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(), users, chores, groupName.getText().toString(), groupPass.getText().toString()));
             }
         });
     }

@@ -35,6 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class ChoresActivity extends AppCompatActivity {
 
@@ -42,10 +44,14 @@ public class ChoresActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     private DatabaseReference usernameGet;
 
+    DatabaseReference group_ref;
+    String group_name;
+
+
     ArrayList<CHORES_OBJECT> items;
 
 
-    FirebaseUser user;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String[] test = new String[1];
     Context ctx;
 
@@ -59,6 +65,37 @@ public class ChoresActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
+
+        group_ref = FirebaseDatabase.getInstance().getReference("Groups");
+
+        group_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    for (int i=0; i<snapshot.child("users").getChildrenCount(); i++) {
+                        HashMap map = (HashMap) snapshot.child("users").child(String.valueOf(i)).getValue();
+                        if (map.get("email").equals(user.getEmail())) {
+                            group_name = (String) snapshot.child("groupName").getValue();
+                            System.out.println(group_name);
+                            break;
+                        }
+                    }
+
+//                    for (int i=0; i<snapshot.child("users").getChildrenCount(); i++) {
+//                        //System.out.println(snapshot.child("users").child(String.valueOf(i)).getValue());
+//                        System.out.println(i);
+//                        System.out.println(snapshot.child("users").child(String.valueOf(i)).getValue().getClass());
+//                        HashMap map = (HashMap) snapshot.child("users").child(String.valueOf(i)).getValue();
+//                        System.out.println(map.get("email"));
+//                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         items = new ArrayList<CHORES_OBJECT>();
@@ -78,7 +115,12 @@ public class ChoresActivity extends AppCompatActivity {
                     String user = snapShot.child("USER_ID").getValue(String.class);
                     String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
                     Boolean chore_status = snapShot.child("CHORE_DONE").getValue(Boolean.class);
-                    CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status);
+
+                    String id = snapShot.child("GROUP_ID").getValue(String.class);
+
+                    CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id);
+
+                    //CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status);
                     items.add(obj);
 
                 }
@@ -133,7 +175,15 @@ public class ChoresActivity extends AppCompatActivity {
                         //items.add(new CHORES_OBJECT(user.getDisplayName(), input.getText().toString(), false));
                         //myRef.child("Chores").child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getDisplayName(), input.getText().toString(), false));
                         //items.add(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
-                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
+
+                         String mID = databaseReference.child(input.getText().toString()).push().getKey();
+
+                         //------------------------------------
+                        //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
+                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name));
+                        System.out.println(mID);
+
+                        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
 
 
                     }
@@ -168,25 +218,27 @@ public class ChoresActivity extends AppCompatActivity {
 
             CHORES_OBJECT obj = data_list.get(i);
 
-
-            user.setId(i);
-            user.setText(obj.USER_ID);
-
-            chore.setId(i);
-            chore.setText(obj.CHORE_NAME);
-
-            checkBox.setId(i);
-            checkBox.setChecked(obj.CHORE_DONE);
+            if (obj.GROUP_ID.equals(group_name)) {
 
 
-            layout.addView(user);
-            setTextViewAttributes(user);
-            layout.addView(chore);
-            setTextViewAttributes(chore);
-            layout.addView(checkBox);
-            setCheckBoxAttributes(checkBox);
-            onCheckBoxClicked(checkBox, obj);
+                user.setId(i);
+                user.setText(obj.USER_ID);
 
+                chore.setId(i);
+                chore.setText(obj.CHORE_NAME);
+
+                checkBox.setId(i);
+                checkBox.setChecked(obj.CHORE_DONE);
+
+
+                layout.addView(user);
+                setTextViewAttributes(user);
+                layout.addView(chore);
+                setTextViewAttributes(chore);
+                layout.addView(checkBox);
+                setCheckBoxAttributes(checkBox);
+                onCheckBoxClicked(checkBox, obj);
+            }
 
         }
         data_list.clear();
@@ -198,7 +250,9 @@ public class ChoresActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // your code to be executed on click :)
                 //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
-                databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE));
+
+                //-------------------------
+                //databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE));
             }
         });
     }

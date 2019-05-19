@@ -1,0 +1,23 @@
+CHANGELOG:
+
+5/18/2019 - Ryan Ng
+- Changed the group data structure
+    - Originally groups had 3 fields, "ADMIN", "groupName", "groupPass"
+        - Added an ArrayList field called "users" that has all the members of a group
+        - Also added an ArrayList field called "chores" that was supposed to reference the chores, but I'll probably end up removing it later,
+        havent used it at all       
+- Added a join group functionality
+- Made changes to "ChoresActivity.java" and "CHORES_OBJECT.java"
+    - Added an extra field in the CHORES_OBJECT: a group ID
+    - Now in the chores activity, users can only see chores that were inputted from users in their same group
+
+5/17/2018 - Brix Joshua Tanhueco
+- Added logouts using a menu in toolbar, you can disregard
+the "Logout" button on the landing activity, that was used for debugging
+- Added rent splitting activity, but need to add scrollviews and etc. after groups are
+implemented
+- Deleted some minor things also, idk if they're required, if so please lmk:
+    - Deleted the "finish()" after launching chores activity since we want users to
+      go back to the main menu
+-Implemented a progress bar on logins + create accounts, thinking about implementing this to
+ chores? idk.

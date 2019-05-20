@@ -17,6 +17,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -215,6 +216,7 @@ public class ChoresActivity extends AppCompatActivity {
             TextView user =(TextView) new TextView(this);
             TextView chore = (TextView) new TextView(this);
             CheckBox checkBox = (CheckBox) new CheckBox(this);
+            Button button = new Button(this);
 
             CHORES_OBJECT obj = data_list.get(i);
 
@@ -229,6 +231,7 @@ public class ChoresActivity extends AppCompatActivity {
 
                 checkBox.setId(i);
                 checkBox.setChecked(obj.CHORE_DONE);
+                button.setText("View Details");
 
 
                 layout.addView(user);
@@ -238,6 +241,7 @@ public class ChoresActivity extends AppCompatActivity {
                 layout.addView(checkBox);
                 setCheckBoxAttributes(checkBox);
                 onCheckBoxClicked(checkBox, obj);
+                layout.addView(button);
             }
 
         }

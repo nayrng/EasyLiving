@@ -1,4 +1,9 @@
 CHANGELOG:
+5/19/2019 - Brix Joshua Tanhueco
+- IMPLEMENTATION IDEA: We should probably prompt the user to either join a group or create a group on sign in
+- IMPLEMENTATION IDEA: We should prob still create a database with "user nodes" to check if they're in a group
+- ERROR: I noticed that once a user starts the chore activity, the chores don't pop up at first.
+- FIXED: Added password checking into groups
 
 5/18/2019 - Ryan Ng
 - Changed the group data structure
@@ -21,3 +26,4 @@ implemented
       go back to the main menu
 -Implemented a progress bar on logins + create accounts, thinking about implementing this to
  chores? idk.
+-Created "groups" but having difficulty accessing the "Users"

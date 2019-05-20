@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,12 +75,48 @@ public class JoinGroup extends AppCompatActivity {
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < fire_list.size(); i++) {
+                DatabaseReference dBRef = FirebaseDatabase.getInstance().getReference("Groups");
+                dBRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String pw = snapshot.child("groupPass").getValue(String.class);
+                            if (pw.equals(groupPass.getText().toString())) {
+                                for (int i = 0; i < fire_list.size()-1; i++) {
+                                    System.out.println(fire_list.get(i).users.get(i));
+                                    System.out.println("okokok");
+                                }
+                                String list_size = String.valueOf(fire_list.size());
+                                databaseReference.child(groupName.getText().toString()).child("users").child(list_size).setValue(user);
+                                Toast.makeText(JoinGroup.this, "Group Joined!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(JoinGroup.this, "Invalid Group Pass/User", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                /*for (int i = 0; i < fire_list.size(); i++) {
                     System.out.println(fire_list.get(i).users.get(i));
                     System.out.println("okokok");
                 }
                 String list_size = String.valueOf(fire_list.size());
-                databaseReference.child(groupName.getText().toString()).child("users").child(list_size).setValue(user);
+                if(databaseReference.child(groupName.getText().toString()).child("groupPass").getKey().equals(groupPass.getText().toString())){
+                    databaseReference.child(groupName.getText().toString()).child("users").child(list_size).setValue(user);
+                    Toast.makeText(JoinGroup.this, "Group Joined!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(JoinGroup.this, "Invalid Group Pass/User", Toast.LENGTH_SHORT).show();
+                    Log.d("join", databaseReference.child(groupName.getText().toString()).child("groupPass").);
+                }*/
+
+
 
             }
         });

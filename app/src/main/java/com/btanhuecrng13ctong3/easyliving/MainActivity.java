@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                                     //updateUI(user);<--Firebase Code IDK what it does
                                     loginProg.setVisibility(View.INVISIBLE);
                                     Toast.makeText(MainActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
+                                    user = FirebaseAuth.getInstance().getCurrentUser();
+
                                     Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
                                     startActivity(intent);
                                     finish();

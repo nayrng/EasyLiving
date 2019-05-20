@@ -6,7 +6,7 @@ CHANGELOG:
 - FIXED: Added password checking into groups
 
 - CHANGED: Changed the GROUP type user arrayList to STRING instead of the raw user value. This allowed for password checking but fucked up 
---something in the ChoresACtivity?
+--something in the ChoresACtivity? <-Jk looks like I fixed it by wiping the database and changing some map code
 
 
 5/18/2019 - Ryan Ng

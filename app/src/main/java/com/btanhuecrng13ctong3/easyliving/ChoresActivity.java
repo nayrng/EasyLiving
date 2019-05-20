@@ -74,13 +74,15 @@ public class ChoresActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     for (int i=0; i<snapshot.child("users").getChildrenCount(); i++) {
-                        HashMap map = (HashMap) snapshot.child("users").child(String.valueOf(i)).getValue();
-                        if (map.get("email").equals(user.getEmail())) {
+                        String map =  snapshot.child("users").child(String.valueOf(i)).getValue(String.class);
+                        if (map.equals(user.getEmail())) {
                             group_name = (String) snapshot.child("groupName").getValue();
                             System.out.println(group_name);
                             break;
                         }
                     }
+                    //String pw = snapshot.child("groupName").getValue(String.class);
+
 
 //                    for (int i=0; i<snapshot.child("users").getChildrenCount(); i++) {
 //                        //System.out.println(snapshot.child("users").child(String.valueOf(i)).getValue());

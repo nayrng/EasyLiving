@@ -10,7 +10,7 @@ public class GROUPS_OBJECT {
     private*/
    //String[] USER_ID;
    String ADMIN;
-   ArrayList<FirebaseUser> users;
+   ArrayList<String> users;
    ArrayList<String> chores;
    String groupName;
    String groupPass;
@@ -25,7 +25,7 @@ public class GROUPS_OBJECT {
 //        this.groupName = groupName;
 //        this.groupPass = groupPass;
 //    }
-    public GROUPS_OBJECT(String admin, ArrayList<FirebaseUser> user, ArrayList<String> chore, String groupName, String groupPass) {
+    public GROUPS_OBJECT(String admin, ArrayList<String> user, ArrayList<String> chore, String groupName, String groupPass) {
         this.ADMIN = admin;
         //this.USER_ID = users;
         this.users = user;

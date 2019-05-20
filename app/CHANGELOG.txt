@@ -5,6 +5,10 @@ CHANGELOG:
 - ERROR: I noticed that once a user starts the chore activity, the chores don't pop up at first.
 - FIXED: Added password checking into groups
 
+- CHANGED: Changed the GROUP type user arrayList to STRING instead of the raw user value. This allowed for password checking but fucked up 
+--something in the ChoresACtivity?
+
+
 5/18/2019 - Ryan Ng
 - Changed the group data structure
     - Originally groups had 3 fields, "ADMIN", "groupName", "groupPass"

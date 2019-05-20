@@ -52,8 +52,8 @@ public class JoinGroup extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Log.d("testing", "inside snapshot loop");
                     String admin = snapshot.child("ADMIN").getValue(String.class);
-                    ArrayList<FirebaseUser> users = (ArrayList<FirebaseUser>) snapshot.child("users").getValue();
-                    ArrayList<String> chore_list = (ArrayList<String>) snapshot.child("chores").getValue();
+                    ArrayList<String> users = (ArrayList<String>)snapshot.child("users").getValue();
+                    ArrayList<String> chore_list= (ArrayList<String>)snapshot.child("chores").getValue();
                     String name = snapshot.child("groupName").getValue(String.class);
                     String pass = snapshot.child("groupPass").getValue(String.class);
                     GROUPS_OBJECT obj = new GROUPS_OBJECT(admin, users, chore_list, name, pass);
@@ -83,11 +83,11 @@ public class JoinGroup extends AppCompatActivity {
                             String pw = snapshot.child("groupPass").getValue(String.class);
                             if (pw.equals(groupPass.getText().toString())) {
                                 for (int i = 0; i < fire_list.size()-1; i++) {
-                                    System.out.println(fire_list.get(i).users.get(i));
+                                    //System.out.println(fire_list.get(i).users.get(i));
                                     System.out.println("okokok");
                                 }
                                 String list_size = String.valueOf(fire_list.size());
-                                databaseReference.child(groupName.getText().toString()).child("users").child(list_size).setValue(user);
+                                databaseReference.child(groupName.getText().toString()).child("users").child(list_size).setValue(user.getEmail());
                                 Toast.makeText(JoinGroup.this, "Group Joined!", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {

@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PopUp"></activity>
+        <activity android:name=".SuppliesActivity" />
         <activity android:name=".JoinGroup"></activity>
         <activity android:name=".ViewGroupActivity" />
         <activity android:name=".PayActivity" />

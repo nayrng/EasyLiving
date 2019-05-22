@@ -47,12 +47,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonSupplies"
         android:layout_width="139dp"
         android:layout_height="137dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="35dp"
-        android:text="Button"
+        android:text="Supplies"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createGroup" />
 

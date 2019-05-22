@@ -29,6 +29,16 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
+        Button supplies = (Button) findViewById(R.id.buttonSupplies);
+        supplies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SuppliesActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        
         Button api =(Button) findViewById(R.id.apibtn);
         api.setOnClickListener(new View.OnClickListener() {
             @Override

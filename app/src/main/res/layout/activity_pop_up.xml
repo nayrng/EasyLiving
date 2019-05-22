@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popupbg"
+    android:orientation="vertical"
+    tools:context=".PopUp"
+    android:id="@+id/linearLayout">
+
+    <EditText
+        android:id="@+id/supply_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Name of supply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="45dp"
+        tools:layout_conversion_absoluteWidth="132dp" />
+
+    <EditText
+        android:id="@+id/supply_Buyer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Buyer of supply"
+        app:layout_constraintEnd_toEndOf="@+id/supply_Name"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/supply_Name"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Name"
+        tools:layout_conversion_absoluteHeight="45dp"
+        tools:layout_conversion_absoluteWidth="130dp" />
+
+    <EditText
+        android:id="@+id/supply_Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Price"
+        app:layout_constraintEnd_toEndOf="@+id/supply_Buyer"
+        app:layout_constraintStart_toStartOf="@+id/supply_Buyer"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Buyer"
+        tools:layout_conversion_absoluteHeight="45dp"
+        tools:layout_conversion_absoluteWidth="411dp" />
+
+    <EditText
+        android:id="@+id/supply_Quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Quantity"
+        app:layout_constraintEnd_toEndOf="@+id/supply_Price"
+        app:layout_constraintStart_toStartOf="@+id/supply_Price"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Price"
+        tools:layout_conversion_absoluteHeight="45dp"
+        tools:layout_conversion_absoluteWidth="411dp" />
+
+    <Button
+        android:id="@+id/submit_Supply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="@+id/supply_Quantity"
+        app:layout_constraintStart_toStartOf="@+id/supply_Quantity"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Quantity"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="88dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -3,20 +3,32 @@ package com.btanhuecrng13ctong3.easyliving;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+//import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LandingActivity extends AppCompatActivity {
-
+    //TextView welcomemsg;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        String username = getIntent().getStringExtra("USERNAME");
+        Log.d("USER", username);
+        TextView welcomemsg=findViewById(R.id.welcome);
+        String welcome = "Welcome home " + username;
+        Log.d("USERWELCOME", welcome);
+        welcomemsg.setText(welcome);
+        //welcomemsg.append(username);
 
 
         Button chores =(Button) findViewById(R.id.buttonChores);
@@ -78,7 +90,7 @@ public class LandingActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
         return super.onCreateOptionsMenu(menu);
@@ -95,5 +107,5 @@ public class LandingActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

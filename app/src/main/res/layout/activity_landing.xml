@@ -1,69 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".LandingActivity">
 
     <Button
         android:id="@+id/apibtn"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="35dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="32dp"
         android:text="eee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="35dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/JoinGroup" />
 
     <Button
         android:id="@+id/JoinGroup"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="35dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
         android:text="Join Group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apibtn" />
 
     <Button
         android:id="@+id/buttonChores"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="300dp"
         android:text="Chores"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonSupplies"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="35dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
         android:text="Supplies"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createGroup" />
 
     <Button
         android:id="@+id/createGroup"
-        android:layout_width="139dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="35dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
         android:text="Create Group"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonChores" />
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="330dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+
+        android:layout_marginEnd="32dp"
+        android:text="Welcome Home!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

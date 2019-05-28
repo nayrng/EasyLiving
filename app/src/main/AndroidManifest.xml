@@ -27,7 +27,8 @@
             android:name=".ChoresActivity"
             android:label="@string/title_activity_chores"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LandingActivity" />
+        <activity android:name=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".mypage" />
         <activity android:name=".MainActivity">
             <intent-filter>

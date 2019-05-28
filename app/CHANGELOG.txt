@@ -1,4 +1,15 @@
 CHANGELOG:
+5/26/2019 - Brix Tanhueco
+- One thing that was causing us huge issues was Firebase, it often changes the field key name (like changing groupName to groupname)
+- I'm unsure if this is still an issue, but lol who tf knows. 
+- Added some basic logic shit when it comes to joining a group, you can't join a group you're already in, but u can still join other's groups
+- But if you join other's groups, the rules for chores become more difficult, so lol.
+
+- Created a new "Payments" Object, this should handle rent splitting / supplies price division
+- We should consider implementing an activity with multiple tabs to view charges, view people who haven't paid you, your running total, etc. 
+- Consider implementing a checkbox into payments also
+- Probably gonna implement "open Venmo" etc. 
+
 5/19/2019 - Brix Joshua Tanhueco
 - IMPLEMENTATION IDEA: We should probably prompt the user to either join a group or create a group on sign in
 - IMPLEMENTATION IDEA: We should prob still create a database with "user nodes" to check if they're in a group

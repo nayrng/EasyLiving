@@ -67,6 +67,15 @@ public class LandingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button split_payment = findViewById(R.id.button8);
+        split_payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), split_payment.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -6,36 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".PayActivity">
 
-    <EditText
-        android:id="@+id/totalRent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/sendrequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="28dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalRent" />
+        app:layout_constraintTop_toBottomOf="@+id/dollaramt" />
 
     <TextView
         android:id="@+id/rentShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
-        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="255dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/sendrequest"
-        app:layout_constraintTop_toBottomOf="@+id/sendrequest" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/itemdesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Item Description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/dollaramt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:ems="10"
+        android:hint="$ amount"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/itemdesc"
+        app:layout_constraintTop_toBottomOf="@+id/itemdesc" />
 
 </android.support.constraint.ConstraintLayout>

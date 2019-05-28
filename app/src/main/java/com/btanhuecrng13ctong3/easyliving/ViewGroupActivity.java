@@ -81,7 +81,6 @@ public class ViewGroupActivity extends AppCompatActivity {
                 ArrayList<String> users = new ArrayList<String>();
                 users.add(user.getEmail());
                 ArrayList<String> chores = new ArrayList<>();
-//
                 databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(), users, chores, groupName.getText().toString(), groupPass.getText().toString()));
             }
         });

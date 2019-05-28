@@ -86,33 +86,42 @@ public class JoinGroup extends AppCompatActivity {
                 dBRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                        Boolean groupExists = false;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String groupname = snapshot.child("groupname").getValue(String.class);
                             String grouppass = snapshot.child("grouppass").getValue(String.class);
                             //Log.d("onChange List Group", "Group: " + snapshot.child("groupname").getValue(String.class));
                             String stringName = groupName.getText().toString();
                             String stringPass = groupPass.getText().toString();
+
                             Log.d("onChange List Group", "Group: " + groupname);
                             //Log.d("StringInput", "Group Input: " + stringName);
                             if(groupname.equals(stringName)){
                                 Log.d("in success", "Group Match:" + stringName);
+                                groupExists = true;
                                 if(grouppass.equals(stringPass)){
+                                    Boolean isInGroup = false;
                                     Log.d("in pw success", "Pass match:" + grouppass);
                                     ArrayList<String> users = (ArrayList<String>)snapshot.child("users").getValue();
-                                    users.add(user.getEmail());
-                                    for(int i = 0; i<users.size();i++){
-                                        Log.d("joinGroup onUpdate", "Updated Users: " + users.get(i));
+                                    for(int i = 0; i < users.size();i++){
+                                        if(user.getEmail().equals(users.get(i))){
+                                            isInGroup = true;
+                                            Toast.makeText(JoinGroup.this, "You are already a part of this group!", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                    FirebaseDatabase.getInstance().getReference("Groups").child(groupname).child("users").setValue(users);
-                                    Toast.makeText(JoinGroup.this, "Group" + groupname + "joined!", Toast.LENGTH_SHORT).show();
-                                    finish();
+                                    if(!isInGroup) {
+                                        users.add(user.getEmail());
+                                        FirebaseDatabase.getInstance().getReference("Groups").child(groupname).child("users").setValue(users);
+                                        Toast.makeText(JoinGroup.this, "Group" + groupname + "joined!", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
                                 }else{
                                     Toast.makeText(JoinGroup.this, "Password incorrect!" , Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(JoinGroup.this, "Group does not exist!" , Toast.LENGTH_SHORT).show();
+
                             }
+
                             /*String pw = snapshot.child("grouppass").getValue(String.class);
                             String groupname = snapshot.child("groupname").getValue(String.class);
                             Iterable<DataSnapshot> obj = snapshot.getChildren();
@@ -159,6 +168,9 @@ public class JoinGroup extends AppCompatActivity {
                             } else {
                                 Toast.makeText(JoinGroup.this, "Invalid Group Pass/User", Toast.LENGTH_SHORT).show();
                             }*/
+                        }
+                        if(!groupExists){
+                            Toast.makeText(JoinGroup.this, "Group does not exist!" , Toast.LENGTH_SHORT).show();
                         }
                     }
 

@@ -74,12 +74,13 @@ public class ChoresActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     for (int i=0; i<snapshot.child("users").getChildrenCount(); i++) {
-                        /*String map =  snapshot.child("users").child(String.valueOf(i)).getValue(String.class);
+                        String map =  snapshot.child("users").child(String.valueOf(i)).getValue(String.class);
+                        Log.d("Wtf is map: ", "Map: "+ map);
                         if (map.equals(user.getEmail())) {
-                            group_name = (String) snapshot.child("groupName").getValue();
+                            group_name = (String) snapshot.child("groupname").getValue();
                             System.out.println(group_name);
                             break;
-                        }*/
+                        }
                         Log.d("ChoresChange", "Users" + i);
                     }
                     //String pw = snapshot.child("groupName").getValue(String.class);
@@ -220,14 +221,14 @@ public class ChoresActivity extends AppCompatActivity {
             TextView chore = (TextView) new TextView(this);
             CheckBox checkBox = (CheckBox) new CheckBox(this);
             Button button = new Button(this);
-
+            Log.d("ChoresObj", "Chore: " + i);
             CHORES_OBJECT obj = data_list.get(i);
 
             if (obj.GROUP_ID.equals(group_name)) {
 
 
                 user.setId(i);
-                user.setText(obj.USER_ID);
+                user.setText("Chore assigned by: " + obj.USER_ID);
 
                 chore.setId(i);
                 chore.setText(obj.CHORE_NAME);
@@ -259,7 +260,7 @@ public class ChoresActivity extends AppCompatActivity {
                 //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
 
                 //-------------------------
-                //databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE));
+                databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE, object1.GROUP_ID));
             }
         });
     }

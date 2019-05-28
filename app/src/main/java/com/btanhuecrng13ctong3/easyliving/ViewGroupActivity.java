@@ -51,7 +51,7 @@ public class ViewGroupActivity extends AppCompatActivity {
                     ArrayList<String> users = (ArrayList<String>)snapShot.child("users").getValue();
                     ArrayList<String> chore_list= (ArrayList<String>)snapShot.child("chores").getValue();
                     String group_name = snapShot.child("groupName").getValue(String.class);
-                    String group_pass = snapShot.child("groupPass").getValue(String.class);
+                    String group_pass = snapShot.child("pass").getValue(String.class);
                     //
                     GROUPS_OBJECT obj = new GROUPS_OBJECT(user, users, chore_list, group_name,group_pass);
                     groups.add(obj);
@@ -81,7 +81,7 @@ public class ViewGroupActivity extends AppCompatActivity {
                 ArrayList<String> users = new ArrayList<String>();
                 users.add(user.getEmail());
                 ArrayList<String> chores = new ArrayList<>();
-//                databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(),groupName.getText().toString(),groupPass.getText().toString()));
+//
                 databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(), users, chores, groupName.getText().toString(), groupPass.getText().toString()));
             }
         });

@@ -1,4 +1,6 @@
 CHANGELOG:
+5/28/2019 - Chuangbo Tong
+- minor changes on UI
 5/26/2019 - Brix Tanhueco
 - One thing that was causing us huge issues was Firebase, it often changes the field key name (like changing groupName to groupname)
 - I'm unsure if this is still an issue, but lol who tf knows. 
@@ -9,6 +11,12 @@ CHANGELOG:
 - We should consider implementing an activity with multiple tabs to view charges, view people who haven't paid you, your running total, etc. 
 - Consider implementing a checkbox into payments also
 - Probably gonna implement "open Venmo" etc. 
+5/21/2019 - Chuangbo Tong
+- Implemented supply page, so now you could add and delete supplies from that page, and you could specify the user, the quantity and price of
+the supply.
+- Found the issue in Joining groups and create groups that would cause an casting error, I fixed it but whenever joining groups it would 
+enter an infinite loop that keeps adding the current user to that group account in firebase, but my laptop broke so I couldn't do anything
+about it.
 
 5/19/2019 - Brix Joshua Tanhueco
 - IMPLEMENTATION IDEA: We should probably prompt the user to either join a group or create a group on sign in

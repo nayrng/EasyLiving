@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/house_main">
 
+    <!--image source: https://i.pinimg.com/originals/bb/33/d4/bb33d41f547d591b29db859648828939.jpg-->
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="229dp"

@@ -47,7 +47,7 @@ public class LandingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SuppliesActivity.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         

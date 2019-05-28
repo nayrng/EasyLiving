@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChoresActivity">
+    tools:context=".ChoresActivity"
+    android:background="@drawable/house_landing">
+    <!--image source: https://i.pinimg.com/originals/4d/66/aa/4d66aa1f05027d70e0a8f5cfc559e5ca.jpg-->
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

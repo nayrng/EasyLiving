@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mainSupply"
-    tools:context=".SuppliesActivity">
+    tools:context=".SuppliesActivity"
+    android:background="@drawable/house_landing">
+    <!--image source: https://i.pinimg.com/originals/4d/66/aa/4d66aa1f05027d70e0a8f5cfc559e5ca.jpg-->
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

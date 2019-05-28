@@ -99,8 +99,19 @@ public class JoinGroup extends AppCompatActivity {
                                 Log.d("in success", "Group Match:" + stringName);
                                 if(grouppass.equals(stringPass)){
                                     Log.d("in pw success", "Pass match:" + grouppass);
-                                    
+                                    ArrayList<String> users = (ArrayList<String>)snapshot.child("users").getValue();
+                                    users.add(user.getEmail());
+                                    for(int i = 0; i<users.size();i++){
+                                        Log.d("joinGroup onUpdate", "Updated Users: " + users.get(i));
+                                    }
+                                    FirebaseDatabase.getInstance().getReference("Groups").child(groupname).child("users").setValue(users);
+                                    Toast.makeText(JoinGroup.this, "Group" + groupname + "joined!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }else{
+                                    Toast.makeText(JoinGroup.this, "Password incorrect!" , Toast.LENGTH_SHORT).show();
                                 }
+                            }else{
+                                Toast.makeText(JoinGroup.this, "Group does not exist!" , Toast.LENGTH_SHORT).show();
                             }
                             /*String pw = snapshot.child("grouppass").getValue(String.class);
                             String groupname = snapshot.child("groupname").getValue(String.class);

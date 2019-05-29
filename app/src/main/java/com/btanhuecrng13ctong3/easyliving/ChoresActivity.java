@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -34,9 +35,10 @@ public class ChoresActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    DatabaseReference rootReference;
     private DatabaseReference usernameGet;
 
-    DatabaseReference group_ref;
+    //DatabaseReference group_ref;
     String group_name;
 
 
@@ -51,16 +53,89 @@ public class ChoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chores);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        items = new ArrayList();
+        rootReference = FirebaseDatabase.getInstance().getReference();//reference the root
+        rootReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.d("ChoresActivity", "RootReference started");
+                    DatabaseReference rootGroupRef = rootReference.child("Groups");
+                    rootGroupRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot groupSnap: dataSnapshot.getChildren()){
+                                ArrayList<String> memb_ref = (ArrayList<String>)groupSnap.child("users").getValue();
+                                String c_group = groupSnap.child("groupname").getValue(String.class);
+                                Log.d("Group Snap Loop", ":" + c_group);
+                                if(memb_ref.contains(user.getEmail())){
+                                    group_name = c_group;
+                                }
+                            }
+                            Log.d("Exited Group Reference", ":" + group_name);
+                            DatabaseReference rootChoresRef= rootReference.child("Chores");
+                            rootChoresRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Log.d("testing", "doing shit");
+                                    for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
+                                        if(group_name.equals(snapShot.child("GROUP_ID").getValue(String.class))) {
+                                            String user = snapShot.child("USER_ID").getValue(String.class);
+                                            String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
+                                            Boolean chore_status = snapShot.child("CHORE_DONE").getValue(Boolean.class);
+                                            String id = snapShot.child("GROUP_ID").getValue(String.class);
+                                            CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id);
+                                            items.add(obj);
+                                        }
+                                    }
+                                    for (int i=0; i<items.size(); i++) {
+                                        Log.d("testing22", items.get(i).CHORE_NAME);
+                                    }
+                                    createList(items);
+
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
+
+                    /*while(group_name == null){
+                        Log.d("ChoresActivity", "group_name is null");
+                        for (int i=0; i<group_ref.child("users").getChildrenCount(); i++) {
+                            String map =  group_ref.child("users").child(String.valueOf(i)).getValue(String.class);
+                            Log.d("Wtf is map: ", "Map: "+ map);
+                            if (map.equals(user.getEmail())) {
+                                group_name = (String) group_ref.child("groupname").getValue();
+                                Log.d("groupname ref:", group_name);
+                                break;
+                            }
+                            Log.d("ChoresChange", "Users" + i);
+                        }
+                    }*/
+                //}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
 
-        group_ref = FirebaseDatabase.getInstance().getReference("Groups");
+        /*group_ref = FirebaseDatabase.getInstance().getReference("Groups");
 
-        group_ref.addValueEventListener(new ValueEventListener() {
+        group_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
@@ -69,7 +144,7 @@ public class ChoresActivity extends AppCompatActivity {
                         Log.d("Wtf is map: ", "Map: "+ map);
                         if (map.equals(user.getEmail())) {
                             group_name = (String) snapshot.child("groupname").getValue();
-                            System.out.println(group_name);
+                            Log.d("groupname ref:", group_name);
                             break;
                         }
                         Log.d("ChoresChange", "Users" + i);
@@ -91,15 +166,13 @@ public class ChoresActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
-        items = new ArrayList<CHORES_OBJECT>();
         // Set up the buttons
 
-        Log.d("testing", "about to do valueeventlistener");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        /*databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("testing", "doing shit");
@@ -134,14 +207,10 @@ public class ChoresActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
 
-        Log.d("testing", String.valueOf(items.size()));
-        for (int i = 0; i < items.size(); i++) {
-            Log.d("testing", items.get(i).CHORE_NAME);
-        }
 
 
         FloatingActionButton fab = findViewById(R.id.fab1);
@@ -215,7 +284,7 @@ public class ChoresActivity extends AppCompatActivity {
             Log.d("ChoresObj", "Chore: " + i);
             CHORES_OBJECT obj = data_list.get(i);
 
-            if (obj.GROUP_ID.equals(group_name)) {
+            //if ((obj.GROUP_ID).equals(group_name)) {
 
 
                 user.setId(i);
@@ -237,7 +306,7 @@ public class ChoresActivity extends AppCompatActivity {
                 setCheckBoxAttributes(checkBox);
                 onCheckBoxClicked(checkBox, obj);
                 layout.addView(button);
-            }
+           // }
 
         }
         data_list.clear();

@@ -87,9 +87,10 @@ public class viewPayments extends AppCompatActivity {
                         if(receivers.contains(curUser.getEmail()) && !(snap.child("sender").getValue(String.class).equals(curUser.getEmail()))){
                             String product = snap.child("product").getValue(String.class);
                             String groupname = snap.child("groupname").getValue(String.class);
+                            String sender = snap.child("sender").getValue(String.class);
                             Double price = snap.child("price").getValue(Double.class);
                             Log.d("youOwe receiversSize: ", ":" + receivers.size());
-                            PAYMENT_OBJ obj = new PAYMENT_OBJ(curUser.getEmail(), product, groupname, price, receivers);
+                            PAYMENT_OBJ obj = new PAYMENT_OBJ(sender, product, groupname, price, receivers);
                             payments.add(obj);
                         }
                     }

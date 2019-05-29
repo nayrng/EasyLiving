@@ -46,7 +46,7 @@ public class LandingRedesign extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), ChoresActivity.class);
                         startActivity(intent);
                     }else if(finalI == 1){
-                        Intent intent = new Intent(getApplicationContext(), PayActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
                         intent.putExtra("USERNAME",user.getEmail());
                         startActivity(intent);
                     }else if(finalI == 2){
@@ -66,6 +66,10 @@ public class LandingRedesign extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
+                    }else if(finalI == 6){
+                        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                        intent.putExtra("USERNAME", user.getEmail());
+                        startActivity(intent);
                     }
                 }
             });

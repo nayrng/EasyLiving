@@ -118,7 +118,7 @@ public class PayActivity extends AppCompatActivity {
                         PAYMENT_OBJ obj = new PAYMENT_OBJ(user.getEmail(), itemDesc.getText().toString(), group_name, (Double.parseDouble(dollarAmt.getText().toString()))/pass_group_users.size(), pass_group_users);
                         String head = itemDesc.getText().toString();
                         databaseReference.child(head).setValue(obj);
-                        Toast.makeText(PayActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayActivity.this, "Members Charged!", Toast.LENGTH_SHORT).show();
                         finish();
                     //}
                 }

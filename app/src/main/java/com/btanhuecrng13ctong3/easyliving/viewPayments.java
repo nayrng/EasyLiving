@@ -1,11 +1,14 @@
 package com.btanhuecrng13ctong3.easyliving;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -78,6 +81,7 @@ public class viewPayments extends AppCompatActivity {
                     }
                 }*/
                 createList(payments);
+
             }
 
             @Override
@@ -103,13 +107,85 @@ public class viewPayments extends AppCompatActivity {
     public void createList(ArrayList<PAYMENT_OBJ> payObj){
         LinearLayout layout = findViewById(R.id.payLayout);
         layout.removeAllViews();
+        //payObj is the array of all PAYMENT_OBJECTS where the current user is the sender
+        //We must extract the users who still have not completed the request
         for(int i =0; i< payObj.size();i++){
             PAYMENT_OBJ obj = payObj.get(i);
             TextView product =(TextView) new TextView(this);
+            TextView price =(TextView) new TextView(this);
+            Button button = new Button(this);
+
+
             product.setId(i);
             product.setText(obj.product);
             layout.addView(product);
+            product.setTextSize(20);
+            setTextViewAttributes(product);
+
+            price.setId(i);
+            String doubleAdapter = "Price: $" + Double.toString(Math.floor(obj.price*100)/100);
+            price.setText(doubleAdapter);
+            layout.addView(price);
+            price.setTextSize(15);
+            setTextViewAttributes(price);
+
+
+            button.setId(i);
+            button.setText("View Details");
+            layout.addView(button);
+            /*button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Details Pressed: ", Integer.toString(v.getId()));
+                    PAYMENT_OBJ pass = payments.get(v.getId());
+                    Log.d("Payment Detail: ",pass.product );
+                    Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
+                    intent.putExtra("Key", payments);
+                    startActivity(intent);
+                }
+            });*/
+            button.setOnClickListener(new customOnClickListener(obj));
+
+
+
         }
+        payObj.clear();
+    }
+
+    public class customOnClickListener implements View.OnClickListener{
+        PAYMENT_OBJ obj;
+        public customOnClickListener(PAYMENT_OBJ obj){
+            this.obj = obj;
+        }
+        @Override
+        public void onClick(View v){
+            Log.d("CustomOnClick: ",obj.product );
+            Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
+            intent.putExtra("product_name",obj.product);
+            intent.putStringArrayListExtra("receivers_list", obj.receivers);
+            startActivity(intent);
+        }
+    }
+
+    private void setTextViewAttributes(TextView textView) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(convertDpToPixel(16),
+                convertDpToPixel(16),
+                0, 0
+        );
+
+        textView.setTextColor(Color.BLACK);
+        //textView.setTextSize(20);
+        textView.setLayoutParams(params);
+    }
+
+    private int convertDpToPixel(float dp) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
     }
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {

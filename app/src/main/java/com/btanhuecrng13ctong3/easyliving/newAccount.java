@@ -60,7 +60,7 @@ public class newAccount extends AppCompatActivity {
                                     //FirebaseUser user = firebaseAuth.getCurrentUser(); <--Firebase Code IDK what it does
                                     //updateUI(user);<--Firebase Code IDK what it does
                                     Toast.makeText(newAccount.this, "Registration success!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
                                     startActivity(intent);
                                 } else {
                                     loginProg.setVisibility(View.INVISIBLE);

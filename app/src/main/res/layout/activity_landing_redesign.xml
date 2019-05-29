@@ -205,22 +205,22 @@
                         app:cardElevation="8dp">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="83dp"
                             android:layout_gravity="center_horizontal|center_vertical"
                             android:layout_margin="16dp"
                             android:orientation="vertical">
 
                             <ImageView
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_width="119dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/supplies" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Lovely"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -258,7 +258,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Team"
+                                android:text="DEBUG"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -299,7 +299,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Friends"
+                                android:text="VIEWPAYMENTS"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -337,7 +337,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="LOGOUT"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -374,7 +374,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -411,7 +411,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -448,7 +448,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -485,7 +485,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -522,7 +522,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
@@ -558,7 +558,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calendars"
+                                android:text="PLACEHOLDER"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"

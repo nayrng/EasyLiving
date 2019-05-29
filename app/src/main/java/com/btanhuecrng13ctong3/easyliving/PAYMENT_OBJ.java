@@ -7,17 +7,17 @@ public class PAYMENT_OBJ{
     String product;
     String groupname;
     double price;
-    String receiver;
+    ArrayList<String> receivers;
 
     public PAYMENT_OBJ(){
 
     }
 
-    public PAYMENT_OBJ(String usr, String prod, String grp, double prc, String rec){
+    public PAYMENT_OBJ(String usr, String prod, String grp, double prc, ArrayList<String> rec){
         this.sender = usr;
         this.product = prod;
         this.groupname = grp;
         this.price = prc;
-        this.receiver = rec;
+        this.receivers = rec;
     }
 }

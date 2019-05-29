@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if( user != null){
             Toast.makeText(MainActivity.this, "Welcome Back!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
             intent.putExtra("USERNAME", user.getEmail());
             startActivity(intent);
             finish();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
                                     user = FirebaseAuth.getInstance().getCurrentUser();
 
-                                    Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
                                     intent.putExtra("USERNAME", user.getEmail());
                                     startActivity(intent);
                                     finish();

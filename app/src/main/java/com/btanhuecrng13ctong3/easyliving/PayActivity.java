@@ -113,12 +113,14 @@ public class PayActivity extends AppCompatActivity {
 
                 if(receivedGroup) {
                     Log.d("FULL SUCCESS", "Group" + group_name);
-                    for (int j = 0; j < pass_group_users.size(); j++) {
-                        Log.d("FULL SUCCESS", "Users List: " + pass_group_users.get(j));
-                        PAYMENT_OBJ obj = new PAYMENT_OBJ(user.getEmail(), itemDesc.getText().toString(), group_name, (Double.parseDouble(dollarAmt.getText().toString()))/pass_group_users.size(), pass_group_users.get(j));
-                        String head = itemDesc.getText().toString() + ": " + j;
+                    //for (int j = 0; j < pass_group_users.size(); j++) {
+                        //Log.d("FULL SUCCESS", "Users List: " + pass_group_users.get(j));
+                        PAYMENT_OBJ obj = new PAYMENT_OBJ(user.getEmail(), itemDesc.getText().toString(), group_name, (Double.parseDouble(dollarAmt.getText().toString()))/pass_group_users.size(), pass_group_users);
+                        String head = itemDesc.getText().toString();
                         databaseReference.child(head).setValue(obj);
-                    }
+                        Toast.makeText(PayActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    //}
                 }
             }
         });

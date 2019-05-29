@@ -1,5 +1,6 @@
 package com.btanhuecrng13ctong3.easyliving;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -41,6 +42,31 @@ public class LandingRedesign extends AppCompatActivity {
                 @Override
                 public void onClick(View view){
                     Log.d("LandingRedesign", "Index: "+ finalI);
+                    if(finalI == 0){
+                        Intent intent = new Intent(getApplicationContext(), ChoresActivity.class);
+                        startActivity(intent);
+                    }else if(finalI == 1){
+                        Intent intent = new Intent(getApplicationContext(), PayActivity.class);
+                        intent.putExtra("USERNAME",user.getEmail());
+                        startActivity(intent);
+                    }else if(finalI == 2){
+                        Intent intent = new Intent(getApplicationContext(), SuppliesActivity.class);
+                        startActivity(intent);
+                        //finish();
+                    }else if(finalI == 3){
+                        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                        intent.putExtra("USERNAME", user.getEmail());
+                        startActivity(intent);
+                    }else if(finalI==4){
+                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
+                        startActivity(intent);
+                    }else if(finalI==5){
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(LandingRedesign.this, "Sign out successful!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             });
         }

@@ -2,7 +2,10 @@ package com.btanhuecrng13ctong3.easyliving;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class viewPayments extends AppCompatActivity {
@@ -32,13 +38,18 @@ public class viewPayments extends AppCompatActivity {
     DatabaseReference databaseReference;
     ArrayList<PAYMENT_OBJ> payments;
     Boolean completed = false;
+    Boolean youOwe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_payments);
         firebaseAuth = FirebaseAuth.getInstance();
         curUser = firebaseAuth.getCurrentUser();
+        youOwe = getIntent().getBooleanExtra("YOUOWE",false);
         Button newCharge = (Button)findViewById(R.id.nCharge);
+        if(youOwe==true){
+            newCharge.setVisibility(View.INVISIBLE);
+        }
         newCharge.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -47,6 +58,7 @@ public class viewPayments extends AppCompatActivity {
             }
         });
 
+        Log.d("Boolean Intent", ": " + youOwe);
 
         payments = new ArrayList<PAYMENT_OBJ>();
         databaseReference = FirebaseDatabase.getInstance().getReference("Payments");
@@ -54,9 +66,9 @@ public class viewPayments extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snap: dataSnapshot.getChildren()){
-
+                    Log.d("Boolean Snap Loop", ": " + youOwe);
                     Log.d("viewPayments", snap.child("groupname").getValue(String.class));
-                    if(snap.child("sender").getValue(String.class).equals(curUser.getEmail())){
+                    if(snap.child("sender").getValue(String.class).equals(curUser.getEmail()) && youOwe == false){
                         /*          this.sender = usr; y
                                     this.product = prod;  y
                                     this.groupname = grp; y
@@ -69,6 +81,17 @@ public class viewPayments extends AppCompatActivity {
                         Log.d("product in loop", product);
                         PAYMENT_OBJ obj = new PAYMENT_OBJ(curUser.getEmail(), product, groupname, price, receivers);
                         payments.add(obj);
+                    }else if(youOwe == true){
+                        ArrayList<String> receivers = (ArrayList<String>)snap.child("receivers").getValue();
+                        //if you owe money, basically if ur in the "receivers" and also not the "sender"
+                        if(receivers.contains(curUser.getEmail()) && !(snap.child("sender").getValue(String.class).equals(curUser.getEmail()))){
+                            String product = snap.child("product").getValue(String.class);
+                            String groupname = snap.child("groupname").getValue(String.class);
+                            Double price = snap.child("price").getValue(Double.class);
+                            Log.d("youOwe receiversSize: ", ":" + receivers.size());
+                            PAYMENT_OBJ obj = new PAYMENT_OBJ(curUser.getEmail(), product, groupname, price, receivers);
+                            payments.add(obj);
+                        }
                     }
                 }
                 completed = true;
@@ -109,12 +132,13 @@ public class viewPayments extends AppCompatActivity {
         layout.removeAllViews();
         //payObj is the array of all PAYMENT_OBJECTS where the current user is the sender
         //We must extract the users who still have not completed the request
+        Log.d("In create List", ": " + youOwe);
         for(int i =0; i< payObj.size();i++){
             PAYMENT_OBJ obj = payObj.get(i);
             TextView product =(TextView) new TextView(this);
             TextView price =(TextView) new TextView(this);
             Button button = new Button(this);
-
+            ImageView youOweImg = new ImageView(this);
 
             product.setId(i);
             product.setText(obj.product);
@@ -123,7 +147,14 @@ public class viewPayments extends AppCompatActivity {
             setTextViewAttributes(product);
 
             price.setId(i);
-            String doubleAdapter = "Price: $" + Double.toString(Math.floor(obj.price*100)/100);
+            DecimalFormat df = new DecimalFormat("0.00");
+            String doubleAdapter = "default";
+            if(youOwe == true) {
+                Log.d("createList Size: ", ":" + obj.receivers.size());
+                doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size()))+ " requested by " +obj.sender;
+            }else if(youOwe == false){
+                doubleAdapter = "Amount Owed To You: $" + (df.format(obj.price));
+            }
             price.setText(doubleAdapter);
             layout.addView(price);
             price.setTextSize(15);
@@ -133,6 +164,20 @@ public class viewPayments extends AppCompatActivity {
             button.setId(i);
             button.setText("View Details");
             layout.addView(button);
+
+            youOweImg.setId(i);
+            //youOweImg.setText("View Details");
+            youOweImg.setImageDrawable(resize(R.drawable.venmoicon));
+            layout.addView(youOweImg);
+            youOweImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
+                    startActivity(i);
+                }
+            });
+
+
             /*button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -186,6 +231,25 @@ public class viewPayments extends AppCompatActivity {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);
+    }
+
+    private void setImageAttributes(ImageView checkBox) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(convertDpToPixel(16),
+                convertDpToPixel(16),
+                convertDpToPixel(16),
+                0
+        );
+    }
+    private Drawable resize(int img) {
+        Drawable dr = getResources().getDrawable(img);
+        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+// Scale it to 50 x 50
+        Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
+        return d;
     }
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {

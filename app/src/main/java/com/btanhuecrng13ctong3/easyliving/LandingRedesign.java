@@ -54,11 +54,13 @@ public class LandingRedesign extends AppCompatActivity {
                         startActivity(intent);
                         //finish();
                     }else if(finalI == 3){
-                        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
-                        intent.putExtra("USERNAME", user.getEmail());
+
+                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
+                        intent.putExtra("YOUOWE",true);
                         startActivity(intent);
                     }else if(finalI==4){
-                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
+                        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                        intent.putExtra("USERNAME", user.getEmail());
                         startActivity(intent);
                     }else if(finalI==5){
                         FirebaseAuth.getInstance().signOut();

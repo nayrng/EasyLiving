@@ -62,6 +62,7 @@ public class PayActivity extends AppCompatActivity {
                         if(group_users.contains(user.getEmail())){
                             group_name = (String) snap.child("groupname").getValue();
                             pass_group_users = group_users;
+
                             /*Log.d("SUCCESS", "Group" + group_name);
                             for(int j = 0; j<group_users.size();j++){
                                 Log.d("PayActivity", "Users List: " + pass_group_users.get(j));
@@ -115,7 +116,7 @@ public class PayActivity extends AppCompatActivity {
                     Log.d("FULL SUCCESS", "Group" + group_name);
                     //for (int j = 0; j < pass_group_users.size(); j++) {
                         //Log.d("FULL SUCCESS", "Users List: " + pass_group_users.get(j));
-                        PAYMENT_OBJ obj = new PAYMENT_OBJ(user.getEmail(), itemDesc.getText().toString(), group_name, (Double.parseDouble(dollarAmt.getText().toString()))/pass_group_users.size(), pass_group_users);
+                        PAYMENT_OBJ obj = new PAYMENT_OBJ(user.getEmail(), itemDesc.getText().toString(), group_name, (Double.parseDouble(dollarAmt.getText().toString())), pass_group_users);
                         String head = itemDesc.getText().toString();
                         databaseReference.child(head).setValue(obj);
                         Toast.makeText(PayActivity.this, "Members Charged!", Toast.LENGTH_SHORT).show();

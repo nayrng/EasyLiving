@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LandingRedesign"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".split_payment"
             android:label="@string/title_activity_split_payment"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PopUp" />
         <activity android:name=".SuppliesActivity" />
         <activity android:name=".JoinGroup" />
@@ -27,8 +29,9 @@
             android:name=".ChoresActivity"
             android:label="@string/title_activity_chores"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LandingActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".mypage" />
         <activity android:name=".MainActivity">
             <intent-filter>

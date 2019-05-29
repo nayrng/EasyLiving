@@ -6,94 +6,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/house_landing"
-    tools:context=".LandingActivity"
-    >
-<!--image source: https://i.pinimg.com/originals/4d/66/aa/4d66aa1f05027d70e0a8f5cfc559e5ca.jpg-->
+    tools:context=".LandingActivity">
+    <!--image source: https://i.pinimg.com/originals/4d/66/aa/4d66aa1f05027d70e0a8f5cfc559e5ca.jpg-->
     <Button
         android:id="@+id/apibtn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="300dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="37dp"
         android:background="@drawable/roundedbutton"
         android:text="eee"
+        app:layout_constraintBottom_toTopOf="@+id/JoinGroup"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonChores"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="32dp"
-        android:text="Button"
-        android:background="@drawable/roundedbutton"
 
+        android:layout_marginBottom="58dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonSupplies"
         app:layout_constraintTop_toBottomOf="@+id/JoinGroup" />
 
     <Button
         android:id="@+id/JoinGroup"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="32dp"
-        android:text="Join Group"
-        android:background="@drawable/roundedbutton"
 
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Join Group"
+        app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/createGroup"
         app:layout_constraintTop_toBottomOf="@+id/apibtn" />
 
     <Button
         android:id="@+id/buttonChores"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="300dp"
-        android:text="Chores"
-        android:background="@drawable/roundedbutton"
 
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="37dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Chores"
+        app:layout_constraintBottom_toTopOf="@+id/createGroup"
+        app:layout_constraintEnd_toStartOf="@+id/apibtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/introText" />
 
     <Button
         android:id="@+id/buttonSupplies"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
-        android:text="Supplies"
-        android:background="@drawable/roundedbutton"
 
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="58dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Supplies"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createGroup" />
 
     <Button
         android:id="@+id/createGroup"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
-        android:text="Create Group"
-        android:background="@drawable/roundedbutton"
 
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Create Group"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSupplies"
+        app:layout_constraintEnd_toStartOf="@+id/JoinGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonChores" />
 
     <TextView
-        android:id="@+id/welcome"
-        android:layout_width="330dp"
-        android:layout_height="91dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
+        android:id="@+id/introText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="165dp"
         android:text="Welcome Home!"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
         android:textColor="#1E2122"
         android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonChores"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

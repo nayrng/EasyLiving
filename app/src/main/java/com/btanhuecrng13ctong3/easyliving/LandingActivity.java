@@ -5,11 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.view.Menu;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +22,7 @@ public class LandingActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         String username = getIntent().getStringExtra("USERNAME");
         Log.d("USER", username);
-        TextView welcomemsg=findViewById(R.id.welcome);
+        TextView welcomemsg=findViewById(R.id.introText);
         String welcome = "Welcome home " + username;
         Log.d("USERWELCOME", welcome);
         welcomemsg.setText(welcome);
@@ -84,7 +82,8 @@ public class LandingActivity extends AppCompatActivity {
         split_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), split_payment.class);
+                Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
+                intent.putExtra("USERNAME",user.getEmail());
                 startActivity(intent);
             }
         });

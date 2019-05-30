@@ -41,10 +41,17 @@ public class SuppliesActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    DatabaseReference rootReference;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String group_name;
 
     private String supply_name;
     private String buyer_name;
+    private String group;
     private Boolean clicked;
+
+    ArrayList<SUPPLIES_OBJECT> items = new ArrayList<>();
 
 
     @Override
@@ -61,23 +68,83 @@ public class SuppliesActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        //items = new ArrayList();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Supplies");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                item.clear();
+//                for(DataSnapshot ds: dataSnapshot.getChildren()){
+//                    String supplyName = ds.child("supply_NAME").getValue(String.class);
+//                    String supplyBuyer = ds.child("supply_BUYER").getValue(String.class);
+//                    int supplyPrice = ds.child("supply_PRICE").getValue(Integer.class);
+//                    int supplyQuantity = ds.child("supply_NUM").getValue(Integer.class);
+//                    SUPPLIES_OBJECT supplies_object = new SUPPLIES_OBJECT(supplyName, supplyBuyer,
+//                            supplyQuantity, supplyPrice);
+//                    item.add(supplies_object);
+//                    mAdapter = new MyAdapter(item);
+//                    recyclerView.setAdapter(mAdapter);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        rootReference = FirebaseDatabase.getInstance().getReference();
+        rootReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                item.clear();
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    String supplyName = ds.child("supply_NAME").getValue(String.class);
-                    String supplyBuyer = ds.child("supply_BUYER").getValue(String.class);
-                    int supplyPrice = ds.child("supply_PRICE").getValue(Integer.class);
-                    int supplyQuantity = ds.child("supply_NUM").getValue(Integer.class);
-                    SUPPLIES_OBJECT supplies_object = new SUPPLIES_OBJECT(supplyName, supplyBuyer,
-                            supplyQuantity, supplyPrice);
-                    item.add(supplies_object);
-                    mAdapter = new MyAdapter(item);
-                    recyclerView.setAdapter(mAdapter);
-                }
+                DatabaseReference rootGroupRef = rootReference.child("Groups");
+                rootGroupRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot groupSnapShot: dataSnapshot.getChildren()) {
+                            ArrayList<String> members = (ArrayList<String>) groupSnapShot.child("users").getValue();
+                            String groups = groupSnapShot.child("groupname").getValue(String.class);
+                            if(members.contains(user.getEmail())) {
+                                group_name = groups;
+                                Log.d("group name is ", group_name);
+                                break;
+                            }
+                        }
+
+                        DatabaseReference rootSupplyRef = rootReference.child("Supplies");
+                        Log.d("entering", " rootSupplyRefListener");
+                        rootSupplyRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot supplySnapShot: dataSnapshot.getChildren()) {
+                                    if (group_name.equals(supplySnapShot.child("GROUP_ID").getValue(String.class))) {
+                                        String supply_buyer = supplySnapShot.child("supply_BUYER").getValue(String.class);
+                                        String supply_name = supplySnapShot.child("supply_NAME").getValue(String.class);
+                                        String supply_group = supplySnapShot.child("supply_GROUP").getValue(String.class);
+                                        int supply_num = (int) supplySnapShot.child("supply_NUM").getValue();
+                                        int supply_price = (int) supplySnapShot.child("supply_PRICE").getValue();
+                                        SUPPLIES_OBJECT obj = new SUPPLIES_OBJECT(supply_name, supply_buyer, supply_group, supply_num, supply_price);
+                                        items.add(obj);
+                                        mAdapter = new MyAdapter(items);
+                                        recyclerView.setAdapter(mAdapter);
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -94,6 +161,10 @@ public class SuppliesActivity extends AppCompatActivity {
 //                startActivity(intent);
                 firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                System.out.println("okay");
+                System.out.println(group_name);
+                System.out.println("okay2");
 
 
                 relativeLayout = findViewById(R.id.mainSupply);
@@ -118,12 +189,16 @@ public class SuppliesActivity extends AppCompatActivity {
                         clicked = true;
                         supply_name = supplyName.getText().toString();
                         buyer_name = buyerName.getText().toString();
+                        //group = group_name;
+                        Log.d("testing", group_name);
                         int quantity_value = Integer.parseInt(quantityValue.getText().toString());
                         int price_value = Integer.parseInt(priceValue.getText().toString());
                         Log.d("before adding to DB", "Content: "+ supply_name + " "+
                                 buyer_name);
-                        databaseReference.child(supply_name).setValue(
-                                new SUPPLIES_OBJECT(supply_name, buyer_name,  quantity_value, price_value));
+//                        databaseReference.child(supply_name).setValue(
+//                                new SUPPLIES_OBJECT(supply_name, buyer_name,  quantity_value, price_value));
+                        databaseReference.child(supply_name).setValue(new SUPPLIES_OBJECT(supply_name, buyer_name, group_name, quantity_value, price_value));
+                        System.out.println(group_name);
                         Toast.makeText(SuppliesActivity.this, "Added a Supply!", Toast.LENGTH_SHORT).show();
                         popupWindow.dismiss();
                     }

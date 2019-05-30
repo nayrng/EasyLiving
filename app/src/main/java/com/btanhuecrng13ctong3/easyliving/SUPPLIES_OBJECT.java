@@ -6,13 +6,12 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 class SUPPLIES_OBJECT {
-    private String SUPPLY_NAME, SUPPLY_BUYER, SUPPLY_ID;
+    private String SUPPLY_NAME, SUPPLY_BUYER, SUPPLY_ID, SUPPLY_GROUP;
     private int SUPPLY_NUM, SUPPLY_PRICE, SUPPLY_IMAGE;
 
     public SUPPLIES_OBJECT(){
 
     }
-
     public SUPPLIES_OBJECT(String supply_name, String supply_buyer,
                            int supply_num, int supply_price){
         this.SUPPLY_NAME = supply_name;
@@ -20,9 +19,24 @@ class SUPPLIES_OBJECT {
         this.SUPPLY_NUM = supply_num;
         this.SUPPLY_PRICE = supply_price;
     }
-
     public SUPPLIES_OBJECT(String supply_name, String supply_buyer){
         this.SUPPLY_NAME = supply_name;
+        this.SUPPLY_BUYER = supply_buyer;
+    }
+
+
+    public SUPPLIES_OBJECT(String supply_name, String supply_buyer, String supply_group,
+                           int supply_num, int supply_price){
+        this.SUPPLY_NAME = supply_name;
+        this.SUPPLY_BUYER = supply_buyer;
+        this.SUPPLY_GROUP = supply_group;
+        this.SUPPLY_NUM = supply_num;
+        this.SUPPLY_PRICE = supply_price;
+    }
+
+    public SUPPLIES_OBJECT(String supply_name, String supply_buyer, String supply_group){
+        this.SUPPLY_NAME = supply_name;
+        this.SUPPLY_GROUP = supply_group;
         this.SUPPLY_BUYER = supply_buyer;
     }
 

@@ -1,4 +1,8 @@
 CHANGELOG:
+5/30/2019 - Ryan Ng
+- New users have to join a group before going to the landing page. Will work on giving users an option to either join or create a group.
+- Fixed bug that would cause the landing page to say "Welcome home, null" instead of "Welcome home, <USERNAME>" when a new account is created
+- Fixed bug that would cause Split Bills to crash when inserting a new item
 5/28/2019 - Chuangbo Tong
 - minor changes on UI
 5/26/2019 - Brix Tanhueco

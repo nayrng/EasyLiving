@@ -43,32 +43,38 @@ public class LandingRedesign extends AppCompatActivity {
                 public void onClick(View view){
                     Log.d("LandingRedesign", "Index: "+ finalI);
                     if(finalI == 0){
+                        // Chores
                         Intent intent = new Intent(getApplicationContext(), ChoresActivity.class);
                         startActivity(intent);
                     }else if(finalI == 1){
+                        // Bill Splitting
                         Intent intent = new Intent(getApplicationContext(), viewPayments.class);
                         intent.putExtra("USERNAME",user.getEmail());
                         startActivity(intent);
                     }else if(finalI == 2){
+                        // Supplies
                         Intent intent = new Intent(getApplicationContext(), SuppliesActivity.class);
                         startActivity(intent);
                         //finish();
                     }else if(finalI == 3){
-
+                        // Your Payments
                         Intent intent = new Intent(getApplicationContext(), viewPayments.class);
                         intent.putExtra("YOUOWE",true);
                         startActivity(intent);
                     }else if(finalI==4){
-                        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                        // Message Board
+                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
                         intent.putExtra("USERNAME", user.getEmail());
                         startActivity(intent);
                     }else if(finalI==5){
+                        // Logout
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(LandingRedesign.this, "Sign out successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     }else if(finalI == 6){
+                        // Debug
                         Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
                         intent.putExtra("USERNAME", user.getEmail());
                         startActivity(intent);

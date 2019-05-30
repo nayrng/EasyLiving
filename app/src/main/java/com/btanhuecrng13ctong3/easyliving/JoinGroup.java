@@ -1,5 +1,6 @@
 package com.btanhuecrng13ctong3.easyliving;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -113,6 +114,9 @@ public class JoinGroup extends AppCompatActivity {
                                         users.add(user.getEmail());
                                         FirebaseDatabase.getInstance().getReference("Groups").child(groupname).child("users").setValue(users);
                                         Toast.makeText(JoinGroup.this, "Group" + groupname + "joined!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
+                                        intent.putExtra("USERNAME", user.getEmail());
+                                        startActivity(intent);
                                         finish();
                                     }
                                 }else{

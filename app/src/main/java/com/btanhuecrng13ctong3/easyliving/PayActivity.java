@@ -63,7 +63,7 @@ public class PayActivity extends AppCompatActivity {
                             group_name = (String) snap.child("groupname").getValue();
                             pass_group_users = group_users;
 
-                            /*Log.d("SUCCESS", "Group" + group_name);
+                            /*Lgog.d("SUCCESS", "Group" + group_name);
                             for(int j = 0; j<group_users.size();j++){
                                 Log.d("PayActivity", "Users List: " + pass_group_users.get(j));
                             }*/

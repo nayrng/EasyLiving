@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class newAccount extends AppCompatActivity {
 
@@ -25,6 +26,8 @@ public class newAccount extends AppCompatActivity {
     Button registerAccount;
     FirebaseAuth firebaseAuth;
     ProgressBar loginProg;
+
+    DatabaseReference group_ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,12 @@ public class newAccount extends AppCompatActivity {
                                     //FirebaseUser user = firebaseAuth.getCurrentUser(); <--Firebase Code IDK what it does
                                     //updateUI(user);<--Firebase Code IDK what it does
                                     Toast.makeText(newAccount.this, "Registration success!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
+
+
+
+                                    Intent intent = new Intent(getApplicationContext(), JoinGroup.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     loginProg.setVisibility(View.INVISIBLE);
                                     // If sign in fails, display a message to the user.

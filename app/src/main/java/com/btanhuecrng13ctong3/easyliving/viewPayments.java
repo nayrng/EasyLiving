@@ -231,16 +231,17 @@ public class viewPayments extends AppCompatActivity {
         @Override
         public void onClick(View v){
             Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
+            Log.d("venmoCustomOnClick: ",obj.product );
+            ArrayList<String> originalArray = obj.chargecompleted;
+            originalArray.add(curUser.getEmail());
+            SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
+            Date date = new Date(System.currentTimeMillis());
+            originalArray.add(formatter.format(date));
+            databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
             if(i==null){
                 Toast.makeText(viewPayments.this, "Please download Venmo for this functionality", Toast.LENGTH_LONG).show();
             }else{
-                Log.d("venmoCustomOnClick: ",obj.product );
-                ArrayList<String> originalArray = obj.chargecompleted;
-                originalArray.add(curUser.getEmail());
-                SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
-                Date date = new Date(System.currentTimeMillis());
-                originalArray.add(formatter.format(date));
-                databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
+
                 startActivity(i);
             }
 

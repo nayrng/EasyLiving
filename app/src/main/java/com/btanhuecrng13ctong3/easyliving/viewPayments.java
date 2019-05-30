@@ -30,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class viewPayments extends AppCompatActivity {
     FirebaseUser curUser;
@@ -78,8 +80,9 @@ public class viewPayments extends AppCompatActivity {
                         String groupname = snap.child("groupname").getValue(String.class);
                         Double price = snap.child("price").getValue(Double.class);
                         ArrayList<String> receivers = (ArrayList<String>)snap.child("receivers").getValue();
+                        ArrayList<String> chargecompleted = (ArrayList<String>)snap.child("chargecompleted").getValue();
                         Log.d("product in loop", product);
-                        PAYMENT_OBJ obj = new PAYMENT_OBJ(curUser.getEmail(), product, groupname, price, receivers);
+                        PAYMENT_OBJ obj = new PAYMENT_OBJ(curUser.getEmail(), product, groupname, price, receivers, chargecompleted);
                         payments.add(obj);
                     }else if(youOwe == true){
                         ArrayList<String> receivers = (ArrayList<String>)snap.child("receivers").getValue();
@@ -89,8 +92,9 @@ public class viewPayments extends AppCompatActivity {
                             String groupname = snap.child("groupname").getValue(String.class);
                             String sender = snap.child("sender").getValue(String.class);
                             Double price = snap.child("price").getValue(Double.class);
+                            ArrayList<String> chargecompleted = (ArrayList<String>)snap.child("chargecompleted").getValue();
                             Log.d("youOwe receiversSize: ", ":" + receivers.size());
-                            PAYMENT_OBJ obj = new PAYMENT_OBJ(sender, product, groupname, price, receivers);
+                            PAYMENT_OBJ obj = new PAYMENT_OBJ(sender, product, groupname, price, receivers, chargecompleted);
                             payments.add(obj);
                         }
                     }
@@ -151,8 +155,15 @@ public class viewPayments extends AppCompatActivity {
             DecimalFormat df = new DecimalFormat("0.00");
             String doubleAdapter = "default";
             if(youOwe == true) {
-                Log.d("createList Size: ", ":" + obj.receivers.size());
-                doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size()))+ " requested by " +obj.sender;
+                if(obj.chargecompleted.contains(curUser.getEmail())){
+                    ArrayList<String> completed = obj.chargecompleted;
+                    int dateIndex = completed.indexOf(curUser.getEmail()) + 1;
+                    Log.d("Index", ":" + dateIndex);
+                    doubleAdapter = "Completed on " + completed.get(dateIndex) ;
+                }else {
+                    Log.d("createList Size: ", ":" + obj.receivers.size());
+                    doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size())) + " requested by " + obj.sender;
+                }
             }else if(youOwe == false){
                 doubleAdapter = "Amount Owed To You: $" + (df.format(obj.price));
             }
@@ -165,31 +176,17 @@ public class viewPayments extends AppCompatActivity {
             button.setId(i);
             button.setText("View Details");
             layout.addView(button);
+            if(obj.chargecompleted.contains(curUser.getEmail())){
 
-            youOweImg.setId(i);
-            //youOweImg.setText("View Details");
-            youOweImg.setImageDrawable(resize(R.drawable.venmoicon));
-            layout.addView(youOweImg);
-            youOweImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
-                    startActivity(i);
-                }
-            });
+            }else{
+                youOweImg.setId(i);
+                youOweImg.setImageDrawable(resize(R.drawable.venmoicon));
+                layout.addView(youOweImg);
+                youOweImg.setOnClickListener(new venmoOnClickListener(obj));
+            }
 
 
-            /*button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("Details Pressed: ", Integer.toString(v.getId()));
-                    PAYMENT_OBJ pass = payments.get(v.getId());
-                    Log.d("Payment Detail: ",pass.product );
-                    Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
-                    intent.putExtra("Key", payments);
-                    startActivity(intent);
-                }
-            });*/
+
             button.setOnClickListener(new customOnClickListener(obj));
 
 
@@ -197,6 +194,12 @@ public class viewPayments extends AppCompatActivity {
         }
         payObj.clear();
     }
+
+    /*public void chargeComplete(PAYMENT_OBJ obj){
+        ArrayList<String> originalArray = obj.chargecompleted;
+        originalArray.add(curUser.getEmail());
+        databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
+    }*/
 
     public class customOnClickListener implements View.OnClickListener{
         PAYMENT_OBJ obj;
@@ -210,6 +213,25 @@ public class viewPayments extends AppCompatActivity {
             intent.putExtra("product_name",obj.product);
             intent.putStringArrayListExtra("receivers_list", obj.receivers);
             startActivity(intent);
+        }
+    }
+
+    public class venmoOnClickListener implements View.OnClickListener{
+        PAYMENT_OBJ obj;
+        public venmoOnClickListener(PAYMENT_OBJ obj){
+            this.obj = obj;
+        }
+        @Override
+        public void onClick(View v){
+            Log.d("venmoCustomOnClick: ",obj.product );
+            ArrayList<String> originalArray = obj.chargecompleted;
+            originalArray.add(curUser.getEmail());
+            SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
+            Date date = new Date(System.currentTimeMillis());
+            originalArray.add(formatter.format(date));
+            databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
+            Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
+            startActivity(i);
         }
     }
 

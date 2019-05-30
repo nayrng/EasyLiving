@@ -90,7 +90,7 @@ public class ChoresActivity extends AppCompatActivity {
                                         }
                                     }
                                     for (int i=0; i<items.size(); i++) {
-                                        Log.d("testing22", items.get(i).CHORE_NAME);
+                                        Log.d("View correct chores: ", items.get(i).CHORE_NAME);
                                     }
                                     createList(items);
 

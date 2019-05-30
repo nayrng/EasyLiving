@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -165,7 +166,13 @@ public class viewPayments extends AppCompatActivity {
                     doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size())) + " requested by " + obj.sender;
                 }
             }else if(youOwe == false){
-                doubleAdapter = "Amount Left Owed To You: $" + (df.format(balance(obj)));
+                Double owed = Double.parseDouble(df.format(balance(obj)));
+                if(owed==0){
+                    doubleAdapter = "All charges completed!";
+                }else{
+                    doubleAdapter = "Amount Left Owed To You: $" + (df.format(balance(obj)));
+                }
+
             }
             price.setText(doubleAdapter);
             layout.addView(price);
@@ -223,15 +230,20 @@ public class viewPayments extends AppCompatActivity {
         }
         @Override
         public void onClick(View v){
-            Log.d("venmoCustomOnClick: ",obj.product );
-            ArrayList<String> originalArray = obj.chargecompleted;
-            originalArray.add(curUser.getEmail());
-            SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
-            Date date = new Date(System.currentTimeMillis());
-            originalArray.add(formatter.format(date));
-            databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
             Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
-            startActivity(i);
+            if(i==null){
+                Toast.makeText(viewPayments.this, "Please download Venmo for this functionality", Toast.LENGTH_LONG).show();
+            }else{
+                Log.d("venmoCustomOnClick: ",obj.product );
+                ArrayList<String> originalArray = obj.chargecompleted;
+                originalArray.add(curUser.getEmail());
+                SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
+                Date date = new Date(System.currentTimeMillis());
+                originalArray.add(formatter.format(date));
+                databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);
+                startActivity(i);
+            }
+
         }
     }
 

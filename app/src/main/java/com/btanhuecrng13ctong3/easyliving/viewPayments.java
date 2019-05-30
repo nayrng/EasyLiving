@@ -165,7 +165,7 @@ public class viewPayments extends AppCompatActivity {
                     doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size())) + " requested by " + obj.sender;
                 }
             }else if(youOwe == false){
-                doubleAdapter = "Amount Owed To You: $" + (df.format(obj.price));
+                doubleAdapter = "Amount Left Owed To You: $" + (df.format(balance(obj)));
             }
             price.setText(doubleAdapter);
             layout.addView(price);
@@ -233,6 +233,21 @@ public class viewPayments extends AppCompatActivity {
             Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
             startActivity(i);
         }
+    }
+
+    public Double balance(PAYMENT_OBJ obj){
+        //input should be the price
+        //originally divided as (total price)/(total members)
+        //expected output should be
+        // newCost = (total price) - ((1+(numofCompletions-1/2))((total price)/(total members))
+        double totalCost = obj.price;
+        int numofMembers = obj.receivers.size();
+        int payCompleted = obj.chargecompleted.size();
+        double newCost;
+        //if(obj.chargecompleted.size() != 1 && (obj.chargecompleted.size()%2)==1){
+            newCost = totalCost - ((1+((payCompleted-1)/2))*(totalCost/numofMembers));
+        //}
+        return newCost;
     }
 
     private void setTextViewAttributes(TextView textView) {

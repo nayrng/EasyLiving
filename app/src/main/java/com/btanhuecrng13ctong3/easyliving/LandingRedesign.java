@@ -48,7 +48,7 @@ public class LandingRedesign extends AppCompatActivity {
                         startActivity(intent);
                     }else if(finalI == 1){
                         // Bill Splitting
-                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
+                        Intent intent = new Intent(getApplicationContext(), viewPayments2.class);
                         intent.putExtra("USERNAME",user.getEmail());
                         startActivity(intent);
                     }else if(finalI == 2){
@@ -58,7 +58,7 @@ public class LandingRedesign extends AppCompatActivity {
                         //finish();
                     }else if(finalI == 3){
                         // Your Payments
-                        Intent intent = new Intent(getApplicationContext(), viewPayments.class);
+                        Intent intent = new Intent(getApplicationContext(), viewPayments2.class);
                         intent.putExtra("YOUOWE",true);
                         startActivity(intent);
                     }else if(finalI==4){
@@ -76,6 +76,10 @@ public class LandingRedesign extends AppCompatActivity {
                     }else if(finalI == 6){
                         // Debug
                         Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+                        intent.putExtra("USERNAME", user.getEmail());
+                        startActivity(intent);
+                    }else if(finalI == 7){
+                        Intent intent = new Intent(getApplicationContext(), viewPayments2.class);
                         intent.putExtra("USERNAME", user.getEmail());
                         startActivity(intent);
                     }

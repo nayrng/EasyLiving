@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ public class viewPayments extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                payments.clear();
                 for(DataSnapshot snap: dataSnapshot.getChildren()){
                     Log.d("Boolean Snap Loop", ": " + youOwe);
                     Log.d("viewPayments", snap.child("groupname").getValue(String.class));
@@ -134,21 +136,24 @@ public class viewPayments extends AppCompatActivity {
     }
 
     public void createList(ArrayList<PAYMENT_OBJ> payObj){
-        LinearLayout layout = findViewById(R.id.payLayout);
-        layout.removeAllViews();
+        LinearLayout org_layout = findViewById(R.id.payLayout);
+        ScrollView scroll = findViewById(R.id.scrollView2);
+        scroll.removeAllViews();
         //payObj is the array of all PAYMENT_OBJECTS where the current user is the sender
         //We must extract the users who still have not completed the request
         Log.d("In create List", ": " + youOwe);
         for(int i =0; i< payObj.size();i++){
+            LinearLayout new_layout = new LinearLayout(this);
             PAYMENT_OBJ obj = payObj.get(i);
             TextView product =(TextView) new TextView(this);
             TextView price =(TextView) new TextView(this);
             Button button = new Button(this);
+            Button debug = new Button(this);
             ImageView youOweImg = new ImageView(this);
 
             product.setId(i);
             product.setText(obj.product);
-            layout.addView(product);
+            new_layout.addView(product);
             product.setTextSize(20);
             setTextViewAttributes(product);
 
@@ -175,30 +180,29 @@ public class viewPayments extends AppCompatActivity {
 
             }
             price.setText(doubleAdapter);
-            layout.addView(price);
+            new_layout.addView(price);
             price.setTextSize(15);
             setTextViewAttributes(price);
 
 
             button.setId(i);
             button.setText("View Details");
-            layout.addView(button);
+            new_layout.addView(button);
             if(obj.chargecompleted.contains(curUser.getEmail())){
 
             }else{
                 youOweImg.setId(i);
                 youOweImg.setImageDrawable(resize(R.drawable.venmoicon));
-                layout.addView(youOweImg);
+                new_layout.addView(youOweImg);
                 youOweImg.setOnClickListener(new venmoOnClickListener(obj));
             }
-
-
-
+            org_layout.addView(new_layout);
             button.setOnClickListener(new customOnClickListener(obj));
 
 
 
         }
+        scroll.addView(org_layout);
         payObj.clear();
     }
 
@@ -245,7 +249,7 @@ public class viewPayments extends AppCompatActivity {
             Log.d("venmoCustomOnClick: ",obj.product );
             ArrayList<String> originalArray = obj.chargecompleted;
             originalArray.add(curUser.getEmail());
-            SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy 'at' hh:mm aa");
+            SimpleDateFormat formatter= new SimpleDateFormat("MMM-dd-yyyy");
             Date date = new Date(System.currentTimeMillis());
             originalArray.add(formatter.format(date));
             databaseReference.child(obj.product).child("chargecompleted").setValue(originalArray);

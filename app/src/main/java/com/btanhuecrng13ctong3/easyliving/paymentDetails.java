@@ -82,7 +82,7 @@ public class paymentDetails extends AppCompatActivity {
             String endVal;
             String value = "$" + (df.format(Double.parseDouble(passedproductPrice) / receiversArray.size()));
             if(curRec.equals(sender)){
-                endVal = "Requested";
+                endVal = "Purchaser";
             }else if(completedArray.contains(curRec)){
                 int index = completedArray.indexOf(curRec);
                 endVal = "Completed";

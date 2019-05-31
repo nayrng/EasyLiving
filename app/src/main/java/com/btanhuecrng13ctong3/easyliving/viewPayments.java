@@ -218,7 +218,10 @@ public class viewPayments extends AppCompatActivity {
             Log.d("CustomOnClick: ",obj.product );
             Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
             intent.putExtra("product_name",obj.product);
-            intent.putStringArrayListExtra("receivers_list", obj.receivers);
+            intent.putExtra("product_price", Double.toString(obj.price));
+            //probably dont need these extra arrayLists since the object is already being passed lol
+            //intent.putStringArrayListExtra("receivers_list", obj.receivers);
+            //intent.putStringArrayListExtra("completed_list", obj.chargecompleted);
             startActivity(intent);
         }
     }

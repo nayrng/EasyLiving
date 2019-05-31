@@ -215,10 +215,18 @@ public class viewPayments extends AppCompatActivity {
         }
         @Override
         public void onClick(View v){
+            DecimalFormat df = new DecimalFormat("0.00");
+            String remOwed = (df.format(balance(obj)));
+            String passprc = df.format(obj.price);
             Log.d("CustomOnClick: ",obj.product );
             Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
             intent.putExtra("product_name",obj.product);
-            intent.putExtra("product_price", Double.toString(obj.price));
+            intent.putExtra("product_price", passprc);
+            intent.putExtra("receivers_array", obj.receivers);
+            intent.putExtra("comp_array", obj.chargecompleted);
+            intent.putExtra("sender", obj.sender);
+            intent.putExtra("remOwed", remOwed);
+
             //probably dont need these extra arrayLists since the object is already being passed lol
             //intent.putStringArrayListExtra("receivers_list", obj.receivers);
             //intent.putStringArrayListExtra("completed_list", obj.chargecompleted);

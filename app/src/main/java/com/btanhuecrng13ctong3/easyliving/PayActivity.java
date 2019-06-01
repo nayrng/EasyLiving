@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,6 @@ public class PayActivity extends AppCompatActivity {
         itemDesc = findViewById(R.id.itemdesc);
         dollarAmt = findViewById(R.id.dollaramt);
 
-        textRent = findViewById(R.id.rentShow);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         receivedGroup = false;

@@ -40,6 +40,7 @@ public class viewPayments2 extends AppCompatActivity {
     ArrayList<PAYMENT_OBJ> payments;
     Boolean completed = false;
     Boolean youOwe;
+    Button newCharge;
 
     public RecyclerView.Adapter mAdapter;
 
@@ -59,7 +60,7 @@ public class viewPayments2 extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         curUser = firebaseAuth.getCurrentUser();
         youOwe = getIntent().getBooleanExtra("YOUOWE",false);
-        Button newCharge = (Button)findViewById(R.id.nCharge);
+        newCharge = (Button)findViewById(R.id.nCharge);
         if(youOwe==true){
             newCharge.setVisibility(View.INVISIBLE);
         }
@@ -264,76 +265,6 @@ public class viewPayments2 extends AppCompatActivity {
                 mBuilder.setTitle("Add a new charge!");
             }
         });*/
-    }
-
-    public void createList(ArrayList<PAYMENT_OBJ> payObj){
-        LinearLayout layout = findViewById(R.id.payLayout);
-        layout.removeAllViews();
-        //payObj is the array of all PAYMENT_OBJECTS where the current user is the sender
-        //We must extract the users who still have not completed the request
-        Log.d("In create List", ": " + youOwe);
-        for(int i =0; i< payObj.size();i++){
-            PAYMENT_OBJ obj = payObj.get(i);
-            TextView product =(TextView) new TextView(this);
-            TextView price =(TextView) new TextView(this);
-            Button button = new Button(this);
-            ImageView youOweImg = new ImageView(this);
-
-            product.setId(i);
-            product.setText(obj.product);
-            layout.addView(product);
-            product.setTextSize(20);
-            setTextViewAttributes(product);
-
-            price.setId(i);
-            DecimalFormat df = new DecimalFormat("0.00");
-            String doubleAdapter = "default";
-            if(youOwe == true) {
-                Log.d("createList Size: ", ":" + obj.receivers.size());
-                doubleAdapter = "$" + (df.format(obj.price / obj.receivers.size()))+ " requested by " +obj.sender;
-            }else if(youOwe == false){
-                doubleAdapter = "Amount Owed To You: $" + (df.format(obj.price));
-            }
-            price.setText(doubleAdapter);
-            layout.addView(price);
-            price.setTextSize(15);
-            setTextViewAttributes(price);
-
-
-            button.setId(i);
-            button.setText("View Details");
-            layout.addView(button);
-
-            youOweImg.setId(i);
-            //youOweImg.setText("View Details");
-            youOweImg.setImageDrawable(resize(R.drawable.venmoicon));
-            layout.addView(youOweImg);
-            youOweImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = getPackageManager().getLaunchIntentForPackage("com.venmo");
-                    startActivity(i);
-                }
-            });
-
-
-            /*button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("Details Pressed: ", Integer.toString(v.getId()));
-                    PAYMENT_OBJ pass = payments.get(v.getId());
-                    Log.d("Payment Detail: ",pass.product );
-                    Intent intent = new Intent(getApplicationContext(), paymentDetails.class);
-                    intent.putExtra("Key", payments);
-                    startActivity(intent);
-                }
-            });*/
-            button.setOnClickListener(new customOnClickListener(obj));
-
-
-
-        }
-        payObj.clear();
     }
 
     public Double balance(PAYMENT_OBJ obj){

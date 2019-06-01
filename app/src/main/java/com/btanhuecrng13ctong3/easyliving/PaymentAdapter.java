@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import com.btanhuecrng13ctong3.easyliving.PAYMENT_OBJ;
 import com.btanhuecrng13ctong3.easyliving.R;
@@ -132,13 +132,32 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
                 Log.d("Index", ":" + dateIndex);
                 String completedChargeTxt = "Completed on: " + completed.get(dateIndex);
                 holder.price.setText(completedChargeTxt);
+                holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmocomp, null));
             }else{
                 holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmoicon, null));
                 holder.price.setText("$" + (df.format(payment_object.price / payment_object.receivers.size())));
             }
         }else if(youOwe == false){
-            holder.oweOrNot.setText("Amount owed to you: ");
-            holder.price.setText("$"+(df.format(balance(payment_object))));
+            //this is what is seen by the "charger"
+            Double owed = Double.parseDouble(df.format(balance(payment_object)));
+            Log.d("owed", ": " + owed);
+            if(owed==0.0){
+                //if everyone has completed the charge
+                holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmosendercomp, null)); // green check
+                holder.oweOrNot.setText("Amount owed to you: ");
+                Log.d("Kirari", ": " + owed);
+                holder.price.setText("$"+(df.format(balance(payment_object))));
+            }else if(payment_object.chargecompleted.size()==1){
+                //if no one has completed the charge
+                holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmosenderncomp, null)); // green check
+                holder.oweOrNot.setText("Amount owed to you: ");
+                holder.price.setText("$"+(df.format(balance(payment_object))));
+            } else{
+                //if some have completed the charge
+                holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmosenderycomp, null));
+                holder.oweOrNot.setText("Amount owed to you: ");
+                holder.price.setText("$"+(df.format(balance(payment_object))));
+            }
         }
 
         //holder.youOweImg.setImageDrawable(ctx.getResources().getDrawable(R.drawable.venmoicon, null));

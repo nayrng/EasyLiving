@@ -40,7 +40,7 @@ public class paymentDetails extends AppCompatActivity {
         finPrcView.setTextSize(25);
         TextView purchaserView = findViewById(R.id.purchaser);
         purchaserView.setText(purchaserBuffer);
-        purchaserView.setTextSize(20);
+        purchaserView.setTextSize(15);
 
         LayoutParams params = new LayoutParams (LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
         params.setMargins(20,0,20,0);

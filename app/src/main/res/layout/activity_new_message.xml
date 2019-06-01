@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/house_landing"
+    tools:context=".NewMessage">
+
+    <Button
+        android:id="@+id/make_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:text="Create post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_body" />
+
+    <EditText
+        android:id="@+id/new_post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Post Title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/new_post_body"
+        android:layout_width="210dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="176dp"
+        android:ems="10"
+        android:hint="Post Body"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/new_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_title" />
+
+</android.support.constraint.ConstraintLayout>

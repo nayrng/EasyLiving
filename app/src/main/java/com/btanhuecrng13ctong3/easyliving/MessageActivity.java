@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,9 +107,37 @@ public class MessageActivity extends AppCompatActivity {
                 messages.clear();
                 for (DataSnapshot snap: dataSnapshot.getChildren()) {
                     if (snap.child("group_NAME").getValue(String.class).equals(group_name) && received_group) {
-                        System.out.println("NIGGGGGGGGGGAAAAAAAAA");
+                        String title = snap.child("post_TITLE").getValue(String.class);
+                        String body = snap.child("post_BODY").getValue(String.class);
+                        String g_name = snap.child("group_NAME").getValue(String.class);
+                        String author = snap.child("post_AUTHOR").getValue(String.class);
+
+                        MESSAGE_OBJ obj = new MESSAGE_OBJ(title, body, g_name, author);
+
+                        messages.add(obj);
+
                     }
                 }
+
+                completed = true;
+                mAdapter = new MessageAdapter(messages);
+                recyclerView.setAdapter(mAdapter);
+                ((MessageAdapter)mAdapter).setOnItemClickListener(new MessageAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Log.d("Position", "pos " + position);
+                    }
+
+                    @Override
+                    public void onDetailClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onImageClick(int position) {
+
+                    }
+                });
             }
 
             @Override

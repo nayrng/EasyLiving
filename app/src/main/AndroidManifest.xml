@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewMessage"></activity>
+        <activity android:name=".MessageDetails"></activity>
+        <activity android:name=".NewMessage" />
         <activity
             android:name=".MessageActivity"
             android:label="@string/title_activity_message"

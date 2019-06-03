@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,12 +38,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title, body, group, author;
-        ImageButton imageButtonDelete;
+        ImageButton details;
         public MyViewHolder(View v, final OnItemClickListener listener) {
             super(v);
-            title = v.findViewById(R.id.post_title);
-            author = v.findViewById(R.id.post_author);
-            imageButtonDelete = v.findViewById(R.id.imageButtonDelete);
+            title = v.findViewById(R.id.view_title);
+            author = v.findViewById(R.id.view_author);
+            details = v.findViewById(R.id.view_post_details);
 
             v.setOnClickListener(new View.OnClickListener() {
 
@@ -57,11 +58,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 }
             });
 
-            imageButtonDelete.setOnClickListener(new View.OnClickListener() {
+            details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     System.out.println("button clicked");
-
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDetailClick(position);
+                        }
+                    }
                 }
             });
         }
@@ -95,76 +101,4 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         return mDataset.size();
     }
 
-//
-//
-//
-//    public static class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView title, body, group, author;
-//        ImageButton imageButtonDelete;
-//
-//        public MyViewHolder(View v) {
-//            super(v);
-//            title = v.findViewById(R.id.post_title);
-//            author = v.findViewById(R.id.post_author);
-//            imageButtonDelete = v.findViewById(R.id.imageButtonDelete);
-//        }
-//    }
-//    public MessageAdapter(ArrayList<MESSAGE_OBJ> myDataset) {
-//        mDataset = myDataset;
-////        ctx = context;
-//    }
-//    // Create new views (invoked by the layout manager)
-//    @Override
-//    public MessageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-//                                                     int viewType) {
-//        // create a new view
-//        View v = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.my_layout, parent, false);
-//        MyViewHolder vh = new MyViewHolder(v);
-//        return vh;
-//    }
-//
-//    // Replace the contents of a view (invoked by the layout manager)
-//    @Override
-//    public void onBindViewHolder(MessageAdapter.MyViewHolder holder, final int position) {
-//        // - get element from your dataset at this position
-//        // - replace the contents of the view with that element
-//        final MESSAGE_OBJ message_obj = mDataset.get(position);
-//
-//        holder.title.setText(message_obj.getPOST_TITLE());
-//        holder.author.setText(message_obj.getPOST_AUTHOR());
-//        holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                mDataset.remove(message_obj);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mDataset.size());
-//            }
-//        });
-//
-////        holder.name.setText(supplies_object.getSUPPLY_NAME());
-////        holder.buyer.setText(supplies_object.getSUPPLY_BUYER());
-////        int supplyNum = supplies_object.getSUPPLY_NUM();
-////        holder.num.setText("Quantity: "+ Integer.toString(supplyNum));
-////        holder.price.setText(Integer.toString(supplies_object.getSUPPLY_PRICE()));
-////        holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                mDataset.remove(supplies_object);
-////                notifyItemRemoved(position);
-////                notifyItemRangeChanged(position, mDataset.size());
-////                FirebaseDatabase.getInstance().getReference("Supplies").child(supplies_object.getSUPPLY_NAME()).removeValue();
-////            }
-////        });
-//
-////        holder.imageView.setImageDrawable(ctx.getResources().getDrawable(supplies_object.getSUPPLY_IMAGE(), null));
-//
-//    }
-//
-//    // Return the size of your dataset (invoked by the layout manager)
-//    @Override
-//    public int getItemCount() {
-//        return mDataset.size();
-//    }
 }

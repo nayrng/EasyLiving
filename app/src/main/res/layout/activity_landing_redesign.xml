@@ -294,12 +294,12 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/messageboard"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Message Board"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"

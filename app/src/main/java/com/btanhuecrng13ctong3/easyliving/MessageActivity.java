@@ -131,6 +131,13 @@ public class MessageActivity extends AppCompatActivity {
                     @Override
                     public void onDetailClick(int position) {
 
+                        MESSAGE_OBJ obj = messages.get(position);
+                        Intent intent = new Intent(getApplicationContext(), MessageDetails.class);
+                        intent.putExtra("post_title", obj.getPOST_TITLE());
+                        intent.putExtra("post_body", obj.getPOST_BODY());
+                        intent.putExtra("post_author", obj.getPOST_AUTHOR());
+                        startActivity(intent);
+
                     }
 
                     @Override

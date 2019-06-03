@@ -1,4 +1,7 @@
 CHANGELOG:
+6/3/2019 - Ryan Ng
+- Finished message board. Will work on making it more aesthetically pleasing
+- Also added a logo for Message Board on the landing activity
 5/30/2019 - Ryan Ng
 - New users have to join a group before going to the landing page. Will work on giving users an option to either join or create a group.
 - Fixed bug that would cause the landing page to say "Welcome home, null" instead of "Welcome home, <USERNAME>" when a new account is created

@@ -1,5 +1,7 @@
 CHANGELOG:
 6/3/2019 - Ryan Ng
+- Added anonymous post feature for message board. Also cleaned it up to make it look better
+6/3/2019 - Ryan Ng
 - Finished message board. Will work on making it more aesthetically pleasing
 - Also added a logo for Message Board on the landing activity
 5/30/2019 - Ryan Ng

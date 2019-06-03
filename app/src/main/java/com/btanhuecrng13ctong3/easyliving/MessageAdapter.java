@@ -38,6 +38,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title, body, group, author;
+        Boolean anon;
         ImageButton details;
         public MyViewHolder(View v, final OnItemClickListener listener) {
             super(v);
@@ -92,7 +93,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         myViewHolder.title.setId(i);
         myViewHolder.title.setText(obj.getPOST_TITLE());
         myViewHolder.author.setId(i);
-        myViewHolder.author.setText(obj.getPOST_AUTHOR());
+        if (obj.getPOST_ANON()) {
+            myViewHolder.author.setText("Anonymous");
+        }
+        else {
+            myViewHolder.author.setText(obj.getPOST_AUTHOR());
+        }
 
     }
 

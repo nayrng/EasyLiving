@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/conLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainSupply"
-    tools:context=".SuppliesActivity"
-    android:background="@drawable/house_landing">
+    android:background="@drawable/house_landing"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".SuppliesActivity">
     <!--image source: https://i.pinimg.com/originals/4d/66/aa/4d66aa1f05027d70e0a8f5cfc559e5ca.jpg-->
 
+    <RelativeLayout
+        android:id="@+id/mainSupply"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addSupply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="@+id/mainSupply"
+        app:layout_constraintStart_toStartOf="@+id/mainSupply"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
+

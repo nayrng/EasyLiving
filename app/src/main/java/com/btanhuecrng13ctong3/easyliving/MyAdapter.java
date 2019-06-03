@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 //adapter for supplies
@@ -63,19 +64,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final SUPPLIES_OBJECT supplies_object = mDataset.get(position);
-
-        holder.name.setText(supplies_object.getSUPPLY_NAME());
-        holder.buyer.setText(supplies_object.getSUPPLY_BUYER());
-        int supplyNum = supplies_object.getSUPPLY_NUM();
+        DecimalFormat df = new DecimalFormat("0.00");
+        holder.name.setText(supplies_object.SUPPLY_NAME);
+        holder.buyer.setText(supplies_object.SUPPLY_BUYER);
+        int supplyNum = supplies_object.SUPPLY_NUM;
         holder.num.setText("Quantity: "+ Integer.toString(supplyNum));
-        holder.price.setText(Integer.toString(supplies_object.getSUPPLY_PRICE()));
+        holder.price.setText("Price: $"+(df.format(supplies_object.SUPPLY_PRICE)));
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDataset.remove(supplies_object);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mDataset.size());
-                FirebaseDatabase.getInstance().getReference("Supplies").child(supplies_object.getSUPPLY_NAME()).removeValue();
+                FirebaseDatabase.getInstance().getReference("Supplies").child(supplies_object.SUPPLY_NAME).removeValue();
             }
         });
 

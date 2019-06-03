@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,73 +11,103 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
 
             <!--<ImageView-->
-                <!--android:id="@+id/imageView"-->
-                <!--android:layout_width="120dp"-->
-                <!--android:layout_height="90dp"-->
-                <!--android:padding="4dp" />-->
+            <!--android:id="@+id/imageView"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="90dp"-->
+            <!--android:padding="4dp" />-->
 
             <TextView
                 android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
 
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="4dp"
                 android:text="Name"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+                app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_wrapHeight="79"
+                tools:layout_conversion_wrapWidth="154" />
 
             <TextView
                 android:id="@+id/textViewBuyer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textViewTitle"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imageView"
-                android:text="Description" />
+                android:layout_width="166dp"
+                android:layout_height="25dp"
+
+                android:layout_marginTop="3dp"
+                android:text="Description"
+                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+                tools:layout_conversion_wrapHeight="50"
+                tools:layout_conversion_wrapWidth="191" />
 
             <TextView
                 android:id="@+id/textViewNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewBuyer"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imageView"
+                android:layout_marginTop="3dp"
                 android:background="@color/design_default_color_primary_dark"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyer"
+                tools:layout_conversion_wrapHeight="50"
+                tools:layout_conversion_wrapWidth="78" />
 
             <TextView
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewNum"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:text="INR 56990"
 
-                 />
+                android:layout_marginTop="3dp"
+                android:text="INR 56990"
+                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+                app:layout_constraintTop_toBottomOf="@id/textViewNum"
+                tools:layout_conversion_wrapHeight="50"
+                tools:layout_conversion_wrapWidth="173" />
 
             <ImageButton
                 android:id="@+id/imageButtonDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="false"
-                android:layout_marginTop="15dp"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.377"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                tools:layout_conversion_wrapHeight="134"
+                tools:layout_conversion_wrapWidth="146" />
 
-        </RelativeLayout>
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="44dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/decrementicon" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 

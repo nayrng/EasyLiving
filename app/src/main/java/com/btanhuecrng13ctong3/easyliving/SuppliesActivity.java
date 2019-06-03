@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -38,20 +39,22 @@ public class SuppliesActivity extends AppCompatActivity {
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
     ArrayList<SUPPLIES_OBJECT> item = new ArrayList<>();
+    ArrayList<String> groupMembers;
 
-    private FirebaseAuth firebaseAuth;
+    FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
     DatabaseReference rootReference;
+    DatabaseReference paymentReference;
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseUser user;
     String group_name;
 
     private String supply_name;
-    private String buyer_name;
+    private String supply_buyer;
     private String group;
     private Boolean clicked;
 
-    ArrayList<SUPPLIES_OBJECT> items = new ArrayList<>();
+    ArrayList<SUPPLIES_OBJECT> items;
 
 
     @Override
@@ -60,6 +63,8 @@ public class SuppliesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_supplies);
         clicked = false;
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -69,8 +74,11 @@ public class SuppliesActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         //items = new ArrayList();
+        items = new ArrayList<>();
+        groupMembers = new ArrayList<>();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Supplies");
+        paymentReference = FirebaseDatabase.getInstance().getReference("Payments");
 //        databaseReference.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,6 +106,7 @@ public class SuppliesActivity extends AppCompatActivity {
         rootReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                items.clear();
                 DatabaseReference rootGroupRef = rootReference.child("Groups");
                 rootGroupRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -108,6 +117,7 @@ public class SuppliesActivity extends AppCompatActivity {
                             if(members.contains(user.getEmail())) {
                                 group_name = groups;
                                 Log.d("group name is ", group_name);
+                                groupMembers = (ArrayList<String>)groupSnapShot.child("users").getValue();
                                 break;
                             }
                         }
@@ -117,18 +127,19 @@ public class SuppliesActivity extends AppCompatActivity {
                         rootSupplyRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                items.clear();
                                 for(DataSnapshot supplySnapShot: dataSnapshot.getChildren()) {
-                                    if (group_name.equals(supplySnapShot.child("GROUP_ID").getValue(String.class))) {
-                                        String supply_buyer = supplySnapShot.child("supply_BUYER").getValue(String.class);
-                                        String supply_name = supplySnapShot.child("supply_NAME").getValue(String.class);
-                                        String supply_group = supplySnapShot.child("supply_GROUP").getValue(String.class);
-                                        int supply_num = (int) supplySnapShot.child("supply_NUM").getValue();
-                                        int supply_price = (int) supplySnapShot.child("supply_PRICE").getValue();
+                                    if (group_name.equals(supplySnapShot.child("SUPPLY_GROUP").getValue(String.class))) {
+                                        String supply_buyer = supplySnapShot.child("SUPPLY_BUYER").getValue(String.class);
+                                        String supply_name = supplySnapShot.child("SUPPLY_NAME").getValue(String.class);
+                                        String supply_group = supplySnapShot.child("SUPPLY_GROUP").getValue(String.class);
+                                        int supply_num = supplySnapShot.child("SUPPLY_NUM").getValue(Integer.class);
+                                        Double supply_price = supplySnapShot.child("SUPPLY_PRICE").getValue(Double.class);
+                                        Log.d("Supply Name", ": " + supply_name);
                                         SUPPLIES_OBJECT obj = new SUPPLIES_OBJECT(supply_name, supply_buyer, supply_group, supply_num, supply_price);
                                         items.add(obj);
-                                        mAdapter = new MyAdapter(items);
-                                        recyclerView.setAdapter(mAdapter);
                                     }
+                                    createList();
                                 }
 
                             }
@@ -138,20 +149,27 @@ public class SuppliesActivity extends AppCompatActivity {
 
                             }
                         });
+
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
+
                 });
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
+
+
+
 
         FloatingActionButton floatingActionButton = findViewById(R.id.addSupply);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -159,11 +177,11 @@ public class SuppliesActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                Intent intent = new Intent(getApplicationContext(), PopUp.class);
 //                startActivity(intent);
-                firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                //firebaseAuth = FirebaseAuth.getInstance();
+                //FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 System.out.println("okay");
-                System.out.println(group_name);
+                Log.d("Supplies GroupName", ":" + group_name);
                 System.out.println("okay2");
 
 
@@ -177,10 +195,11 @@ public class SuppliesActivity extends AppCompatActivity {
                 popupWindow.update();
 
                 Button submitButton = container.findViewById(R.id.submit_Supply);
-                final EditText buyerName = container.findViewById(R.id.supply_Buyer);
+                //final EditText buyerName = container.findViewById(R.id.supply_Buyer);
                 final EditText supplyName = container.findViewById(R.id.supply_Name);
                 final EditText quantityValue = container.findViewById(R.id.supply_Quantity);
                 final EditText priceValue = container.findViewById(R.id.supply_Price);
+                final CheckBox charge = container.findViewById(R.id.payCheck);
 
 
                 submitButton.setOnClickListener(new View.OnClickListener() {
@@ -188,16 +207,21 @@ public class SuppliesActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         clicked = true;
                         supply_name = supplyName.getText().toString();
-                        buyer_name = buyerName.getText().toString();
+                        //supply_buyer = buyerName.getText().toString();
                         //group = group_name;
                         Log.d("testing", group_name);
                         int quantity_value = Integer.parseInt(quantityValue.getText().toString());
-                        int price_value = Integer.parseInt(priceValue.getText().toString());
+                        double price_value = Double.parseDouble(priceValue.getText().toString());
                         Log.d("before adding to DB", "Content: "+ supply_name + " "+
-                                buyer_name);
+                                supply_buyer + " " + group_name);
 //                        databaseReference.child(supply_name).setValue(
 //                                new SUPPLIES_OBJECT(supply_name, buyer_name,  quantity_value, price_value));
-                        databaseReference.child(supply_name).setValue(new SUPPLIES_OBJECT(supply_name, buyer_name, group_name, quantity_value, price_value));
+                        databaseReference.child(supply_name).setValue(new SUPPLIES_OBJECT(supply_name, user.getEmail(), group_name, quantity_value, price_value));
+                        if(charge.isChecked()){
+                            ArrayList<String> EmptyArray = new ArrayList();
+                            EmptyArray.add(user.getEmail());
+                            paymentReference.child(supply_name).setValue(new PAYMENT_OBJ(user.getEmail(), supply_name, group_name, price_value, groupMembers, EmptyArray));
+                        }
                         System.out.println(group_name);
                         Toast.makeText(SuppliesActivity.this, "Added a Supply!", Toast.LENGTH_SHORT).show();
                         popupWindow.dismiss();
@@ -217,5 +241,10 @@ public class SuppliesActivity extends AppCompatActivity {
             mAdapter = new MyAdapter(item);
             recyclerView.setAdapter(mAdapter);
         }
+    }
+    public void createList(){
+        mAdapter = new MyAdapter(items);
+        recyclerView.setAdapter(mAdapter);
+        Log.d("Size of Array", ":" + items.size());
     }
 }

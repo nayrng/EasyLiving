@@ -23,36 +23,26 @@
         tools:layout_conversion_absoluteHeight="45dp"
         tools:layout_conversion_absoluteWidth="132dp" />
 
-    <EditText
-        android:id="@+id/supply_Buyer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Buyer of supply"
-        app:layout_constraintEnd_toEndOf="@+id/supply_Name"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/supply_Name"
-        app:layout_constraintTop_toBottomOf="@+id/supply_Name"
-        tools:layout_conversion_absoluteHeight="45dp"
-        tools:layout_conversion_absoluteWidth="130dp" />
 
     <EditText
         android:id="@+id/supply_Price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="114dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
         android:hint="Price"
-        app:layout_constraintEnd_toEndOf="@+id/supply_Buyer"
-        app:layout_constraintStart_toStartOf="@+id/supply_Buyer"
-        app:layout_constraintTop_toBottomOf="@+id/supply_Buyer"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/supply_Name"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="@+id/supply_Name"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Name"
         tools:layout_conversion_absoluteHeight="45dp"
         tools:layout_conversion_absoluteWidth="411dp" />
 
     <EditText
         android:id="@+id/supply_Quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="118dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
         android:hint="Quantity"
         app:layout_constraintEnd_toEndOf="@+id/supply_Price"
         app:layout_constraintStart_toStartOf="@+id/supply_Price"
@@ -64,12 +54,28 @@
         android:id="@+id/submit_Supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="64dp"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="@+id/supply_Quantity"
         app:layout_constraintStart_toStartOf="@+id/supply_Quantity"
         app:layout_constraintTop_toBottomOf="@+id/supply_Quantity"
         tools:layout_conversion_absoluteHeight="48dp"
         tools:layout_conversion_absoluteWidth="88dp" />
+
+    <CheckBox
+        android:id="@+id/payCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Request Payment?"
+        app:layout_constraintBottom_toTopOf="@+id/submit_Supply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/supply_Quantity"
+        app:layout_constraintVertical_bias="0.083" />
 
 </android.support.constraint.ConstraintLayout>

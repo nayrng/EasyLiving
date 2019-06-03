@@ -11,33 +11,54 @@
         android:id="@+id/make_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="8dp"
         android:text="Create post"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_post_body" />
+        app:layout_constraintTop_toBottomOf="@+id/anon_checkbox"
+        app:layout_constraintVertical_bias="0.154" />
 
     <EditText
         android:id="@+id/new_post_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="144dp"
         android:ems="10"
         android:hint="Post Title"
         android:inputType="textPersonName"
+        android:gravity="center"
+        android:background="@drawable/black_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/new_post_body"
-        android:layout_width="210dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="176dp"
+        android:layout_width="215dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Post Body"
+        android:gravity="center"
+        android:background="@drawable/black_border"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="@+id/new_post_title"
         app:layout_constraintTop_toBottomOf="@+id/new_post_title" />
+
+    <CheckBox
+        android:id="@+id/anon_checkbox"
+        android:layout_width="112dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/black_border"
+        android:text="Anonymous"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_body" />
 
 </android.support.constraint.ConstraintLayout>

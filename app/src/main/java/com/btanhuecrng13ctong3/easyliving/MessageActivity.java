@@ -111,8 +111,9 @@ public class MessageActivity extends AppCompatActivity {
                         String body = snap.child("post_BODY").getValue(String.class);
                         String g_name = snap.child("group_NAME").getValue(String.class);
                         String author = snap.child("post_AUTHOR").getValue(String.class);
+                        Boolean anon = snap.child("post_ANON").getValue(Boolean.class);
 
-                        MESSAGE_OBJ obj = new MESSAGE_OBJ(title, body, g_name, author);
+                        MESSAGE_OBJ obj = new MESSAGE_OBJ(title, body, g_name, author, anon);
 
                         messages.add(obj);
 
@@ -136,6 +137,7 @@ public class MessageActivity extends AppCompatActivity {
                         intent.putExtra("post_title", obj.getPOST_TITLE());
                         intent.putExtra("post_body", obj.getPOST_BODY());
                         intent.putExtra("post_author", obj.getPOST_AUTHOR());
+                        intent.putExtra("post_anon", obj.getPOST_ANON());
                         startActivity(intent);
 
                     }

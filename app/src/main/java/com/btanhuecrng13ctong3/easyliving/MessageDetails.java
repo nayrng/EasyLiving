@@ -14,12 +14,19 @@ public class MessageDetails extends AppCompatActivity {
         String title = getIntent().getStringExtra("post_title");
         String body = getIntent().getStringExtra("post_body");
         String author = getIntent().getStringExtra("post_author");
+        Boolean anon = getIntent().getBooleanExtra("post_anon", false);
+
 
         TextView post_title = findViewById(R.id.details_post_title);
         post_title.setText(title);
 
         TextView post_author = findViewById(R.id.details_post_author);
-        post_author.setText(author);
+        if (!anon) {
+            post_author.setText(author);
+        } else {
+            post_author.setText("Anonymous");
+        }
+
 
         TextView post_body = findViewById(R.id.details_post_body);
         post_body.setText(body);

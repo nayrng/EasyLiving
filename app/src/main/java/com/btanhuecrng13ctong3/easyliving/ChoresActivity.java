@@ -29,7 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChoresActivity extends AppCompatActivity {
 
@@ -85,7 +87,8 @@ public class ChoresActivity extends AppCompatActivity {
                                             String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
                                             Boolean chore_status = snapShot.child("CHORE_DONE").getValue(Boolean.class);
                                             String id = snapShot.child("GROUP_ID").getValue(String.class);
-                                            CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id);
+                                            String date = snapShot.child("ASS_DATE").getValue(String.class);
+                                            CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id, date);
                                             items.add(obj);
                                         }
                                     }
@@ -217,6 +220,9 @@ public class ChoresActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SimpleDateFormat formatter = new SimpleDateFormat("MMM-dd-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                final String strDate = formatter.format(date);
                 firebaseAuth = FirebaseAuth.getInstance();
                 user = firebaseAuth.getCurrentUser();
                 Log.d("testing", user.toString());
@@ -245,7 +251,7 @@ public class ChoresActivity extends AppCompatActivity {
 
                          //------------------------------------
                         //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
-                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name));
+                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
                         System.out.println(mID);
 
                         //DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
@@ -320,7 +326,7 @@ public class ChoresActivity extends AppCompatActivity {
                 //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
 
                 //-------------------------
-                databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE, object1.GROUP_ID));
+                databaseReference.child(object1.CHORE_NAME).setValue(new CHORES_OBJECT(object1.USER_ID, object1.CHORE_NAME, !object1.CHORE_DONE, object1.GROUP_ID, object1.ASS_DATE));
             }
         });
     }

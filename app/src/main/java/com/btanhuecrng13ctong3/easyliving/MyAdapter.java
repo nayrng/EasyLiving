@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.Color;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView name, buyer, num, price;
         ImageView imageView;
         ImageButton imageButtonDelete;
+        ImageButton imgBtnDecrement;
         public MyViewHolder(View v) {
             super(v);
             name = v.findViewById(R.id.textViewTitle);
@@ -40,6 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             num = v.findViewById(R.id.textViewNum);
             imageView = v.findViewById(R.id.imageView);
             imageButtonDelete = v.findViewById(R.id.imageButtonDelete);
+            imgBtnDecrement = v.findViewById(R.id.imageButtonDecrement);
         }
     }
     public MyAdapter(ArrayList<SUPPLIES_OBJECT> myDataset) {
@@ -70,6 +73,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         int supplyNum = supplies_object.SUPPLY_NUM;
         holder.num.setText("Quantity: "+ Integer.toString(supplyNum));
         holder.price.setText("Price: $"+(df.format(supplies_object.SUPPLY_PRICE)));
+        if(supplies_object.SUPPLY_NUM == 0){
+            holder.num.setBackgroundColor(Color.parseColor("#b30000"));
+        }else if(supplies_object.SUPPLY_NUM <= 4){
+            holder.num.setBackgroundColor(Color.parseColor("#f9690e"));
+        }
         holder.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +87,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 FirebaseDatabase.getInstance().getReference("Supplies").child(supplies_object.SUPPLY_NAME).removeValue();
             }
         });
+        holder.imgBtnDecrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int curAmount = supplies_object.SUPPLY_NUM;
+                curAmount = curAmount -1;
+                if(curAmount>=0) {
+                    FirebaseDatabase.getInstance().getReference("Supplies").child(supplies_object.SUPPLY_NAME).child("SUPPLY_NUM").setValue(curAmount);
+                }
+            }
+        });
+
 
 //        holder.imageView.setImageDrawable(ctx.getResources().getDrawable(supplies_object.getSUPPLY_IMAGE(), null));
 

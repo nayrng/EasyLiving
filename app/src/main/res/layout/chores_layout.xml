@@ -24,64 +24,54 @@
             <!--android:padding="4dp" />-->
 
             <TextView
-                android:id="@+id/textViewTitle"
+                android:id="@+id/textViewChoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="4dp"
-                android:text="Name"
+                android:text="Chore Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+                app:layout_constraintStart_toEndOf="@+id/imageButtonDeleteChore"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_conversion_wrapHeight="79"
                 tools:layout_conversion_wrapWidth="154" />
 
-            <TextView
-                android:id="@+id/textViewBuyer"
-                android:layout_width="166dp"
-                android:layout_height="25dp"
-
-                android:layout_marginTop="3dp"
-                android:text="Description"
-                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-                app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-                tools:layout_conversion_wrapHeight="50"
-                tools:layout_conversion_wrapWidth="191" />
 
             <TextView
-                android:id="@+id/textViewNum"
+                android:id="@+id/textViewAssDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:background="@color/design_default_color_primary_dark"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:text="Assigned Date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-                app:layout_constraintTop_toBottomOf="@id/textViewBuyer"
+                app:layout_constraintStart_toStartOf="@+id/textViewChoreName"
+                app:layout_constraintTop_toBottomOf="@id/textViewChoreName"
                 tools:layout_conversion_wrapHeight="50"
                 tools:layout_conversion_wrapWidth="78" />
 
             <TextView
-                android:id="@+id/textViewPrice"
+                android:id="@+id/textViewUserID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="3dp"
-                android:text="INR 56990"
-                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-                app:layout_constraintTop_toBottomOf="@id/textViewNum"
+                android:text="Assigned by: "
+                app:layout_constraintStart_toStartOf="@+id/textViewAssDate"
+                app:layout_constraintTop_toBottomOf="@id/textViewAssDate"
                 tools:layout_conversion_wrapHeight="50"
                 tools:layout_conversion_wrapWidth="173" />
 
             <ImageButton
-                android:id="@+id/imageButtonDelete"
-                android:layout_width="44dp"
-                android:layout_height="61dp"
+                android:id="@+id/imageButtonDeleteChore"
+                android:layout_width="33dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:adjustViewBounds="true"
@@ -95,20 +85,21 @@
                 tools:layout_conversion_wrapHeight="134"
                 tools:layout_conversion_wrapWidth="146" />
 
-
-            <ImageButton
-                android:id="@+id/imageButtonDecrement"
-                android:layout_width="43dp"
-                android:layout_height="61dp"
+            <CheckBox
+                android:id="@+id/checkBoxChore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="fitCenter"
+                android:gravity="top"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:textSize="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/decrementicon" />
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </android.support.constraint.ConstraintLayout>
 

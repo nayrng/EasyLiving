@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -36,12 +38,14 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView chore, date, creator;
         CheckBox done_status;
+        ImageButton deleteButton;
         public MyViewHolder(View v, final OnItemClickListener listener) {
             super(v);
             chore = v.findViewById(R.id.textViewChoreName);
             date = v.findViewById(R.id.textViewAssDate);
             creator = v.findViewById(R.id.textViewUserID);
             done_status = v.findViewById(R.id.checkBoxChore);
+            deleteButton = v.findViewById(R.id.imageButtonDeleteChore);
 
             done_status.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,8 +74,8 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-        CHORES_OBJECT obj = mDataset.get(i);
+    public void onBindViewHolder(MyViewHolder myViewHolder, final int i) {
+        final CHORES_OBJECT obj = mDataset.get(i);
         myViewHolder.chore.setId(i);
         myViewHolder.chore.setText(obj.CHORE_NAME);
 
@@ -83,6 +87,16 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.MyViewHold
 
         myViewHolder.done_status.setId(i);
         myViewHolder.done_status.setChecked(obj.CHORE_DONE);
+
+        myViewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDataset.remove(obj);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, mDataset.size());
+                FirebaseDatabase.getInstance().getReference("Chores").child(obj.CHORE_NAME).removeValue();
+            }
+        });
     }
 
     @Override

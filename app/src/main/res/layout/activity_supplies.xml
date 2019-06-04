@@ -31,6 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginStart="352dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/mainSupply"
         app:layout_constraintStart_toStartOf="@+id/mainSupply"
         app:srcCompat="@android:drawable/ic_input_add" />

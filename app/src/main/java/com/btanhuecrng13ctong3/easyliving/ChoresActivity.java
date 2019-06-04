@@ -90,7 +90,6 @@ public class ChoresActivity extends AppCompatActivity {
                     for (int i = 0; i < snapshot.child("users").getChildrenCount(); i++) {
                         ArrayList<String> group_users = (ArrayList<String>) snapshot.child("users").getValue();
                         if (group_users.contains(user.getEmail())) {
-                            Toast.makeText(ChoresActivity.this, "In group database!", Toast.LENGTH_SHORT).show();
                             group_name = (String) snapshot.child("groupname").getValue();
                             received_group = true;
                         }
@@ -104,8 +103,6 @@ public class ChoresActivity extends AppCompatActivity {
                         items.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             if (snapshot.child("GROUP_ID").getValue(String.class).equals(group_name) && received_group) {
-                                Toast.makeText(ChoresActivity.this, "In chores database!", Toast.LENGTH_SHORT).show();
-
                                 String user = snapshot.child("USER_ID").getValue(String.class);
                                 String chore = snapshot.child("CHORE_NAME").getValue(String.class);
                                 Boolean chore_done = snapshot.child("CHORE_DONE").getValue(Boolean.class);

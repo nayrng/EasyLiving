@@ -25,56 +25,56 @@
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="fitCenter"
+                android:layout_alignParentStart="true"
                 app:srcCompat="@drawable/deleteicon"
                 tools:layout_conversion_wrapHeight="134"
                 tools:layout_conversion_wrapWidth="146"
-                tools:layout_editor_absoluteY="26dp" />
+                />
 
             <TextView
                 android:id="@+id/textViewChoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginLeft="30dp"
                 android:text="Chore Name"
-                android:layout_toEndOf="@+id/imageButtonDeleteChore"
-                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/imageButtonDeleteChore"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
+
 
             <TextView
                 android:id="@+id/textViewAssDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_below="@+id/textViewChoreName"
+                android:layout_marginTop="30dp"
                 android:background="@color/design_default_color_primary_dark"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:text="Assigned Date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold"
-                android:layout_below="@+id/textViewChoreName"
-                android:layout_toEndOf="@+id/imageButtonDeleteChore"
-                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/imageButtonDeleteChore"
+                android:layout_marginLeft="30dp"
                 tools:layout_conversion_wrapHeight="50"
                 tools:layout_conversion_wrapWidth="78"
-                tools:layout_editor_absoluteX="85dp" />
-            <!--app:layout_constraintTop_toBottomOf="@id/textViewChoreName"-->
+                />
+
 
             <TextView
                 android:id="@+id/textViewUserID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:text="Assigned by: "
                 android:layout_below="@+id/textViewAssDate"
                 android:layout_toRightOf="@id/imageButtonDeleteChore"
-                android:layout_marginLeft="34dp"
-                tools:layout_conversion_wrapHeight="50"
-                tools:layout_conversion_wrapWidth="173"
-                tools:layout_editor_absoluteX="93dp" />
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
+                 />
 
 
+
+
+            <!--app:layout_constraintTop_toBottomOf="@id/textViewChoreName"-->
 
             <CheckBox
                 android:id="@+id/checkBoxChore"
@@ -82,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@+id/textViewAssDate"
-                android:layout_marginStart="150dp"
+                android:layout_alignParentEnd="true"
                 android:gravity="top"/>
                 <!--android:scaleX="1.5"-->
                 <!--android:scaleY="1.5"-->

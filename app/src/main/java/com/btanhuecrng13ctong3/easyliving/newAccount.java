@@ -66,7 +66,7 @@ public class newAccount extends AppCompatActivity {
 
 
 
-                                    Intent intent = new Intent(getApplicationContext(), JoinGroup.class);
+                                    Intent intent = new Intent(getApplicationContext(), GroupChoice.class);
                                     startActivity(intent);
                                     finish();
                                 } else {

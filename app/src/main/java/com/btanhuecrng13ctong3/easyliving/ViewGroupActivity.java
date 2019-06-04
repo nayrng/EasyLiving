@@ -1,5 +1,6 @@
 package com.btanhuecrng13ctong3.easyliving;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -82,6 +84,12 @@ public class ViewGroupActivity extends AppCompatActivity {
                 users.add(user.getEmail());
                 ArrayList<String> chores = new ArrayList<>();
                 databaseReference.child(groupName.getText().toString()).setValue(new GROUPS_OBJECT(user.getEmail(), users, chores, groupName.getText().toString(), groupPass.getText().toString()));
+                Toast.makeText(ViewGroupActivity.this, "Group" + groupName.getText().toString() + "joined!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), LandingRedesign.class);
+                intent.putExtra("USERNAME", user.getEmail());
+                startActivity(intent);
+                finish();
+
             }
         });
     }

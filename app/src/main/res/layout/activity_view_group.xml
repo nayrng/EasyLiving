@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/house_main"
     tools:context=".ViewGroupActivity">
 
     <EditText
         android:id="@+id/groupUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="204dp"
         android:ems="10"
-        android:hint="Group User"
+        android:hint="Enter a group name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:ems="10"
-        android:hint="Group Pass"
+        android:hint="Enter a group password"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/groupUser"
         app:layout_constraintTop_toBottomOf="@+id/groupUser" />
@@ -32,9 +33,9 @@
     <Button
         android:id="@+id/createGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="27dp"
-        android:text="Button"
+        android:text="Create Group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groupPass" />

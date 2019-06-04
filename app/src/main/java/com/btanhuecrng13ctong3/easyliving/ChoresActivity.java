@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,8 +39,13 @@ public class ChoresActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
-    DatabaseReference rootReference;
+    DatabaseReference groupReference;
     private DatabaseReference usernameGet;
+
+    public RecyclerView.Adapter mAdapter;
+    public RecyclerView recyclerView;
+    public RecyclerView.LayoutManager layoutManager;
+
 
     //DatabaseReference group_ref;
     String group_name;
@@ -51,6 +58,8 @@ public class ChoresActivity extends AppCompatActivity {
     String[] test = new String[1];
     Context ctx;
 
+    Boolean received_group;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,72 +67,121 @@ public class ChoresActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         items = new ArrayList();
-        rootReference = FirebaseDatabase.getInstance().getReference();//reference the root
-        rootReference.addValueEventListener(new ValueEventListener() {
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+
+        recyclerView = findViewById(R.id.chores_recycler_view);
+        //recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        items = new ArrayList<>();
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleDateFormat formatter = new SimpleDateFormat("MMM-dd-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                final String strDate = formatter.format(date);
+                firebaseAuth = FirebaseAuth.getInstance();
+                user = firebaseAuth.getCurrentUser();
+                Log.d("testing", user.toString());
+//                final DatabaseReference data = FirebaseDatabase.getInstance();
+//                DatabaseReference mDataBase;
+//                mDataBase = FirebaseDatabase.getInstance().getReference();
+
+
+                Log.d("testing", "about to write value");
+
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ChoresActivity.this);
+                mBuilder.setTitle("Add a chore!");
+                final EditText input = new EditText(ChoresActivity.this);
+                mBuilder.setView(input);
+
+                mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String mID = databaseReference.child(input.getText().toString()).push().getKey();
+                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
+                        System.out.println(mID);
+                    }
+                });
+                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                mBuilder.show();
+
+            }
+
+
+        });
+
+        groupReference = FirebaseDatabase.getInstance().getReference("Groups");
+        groupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Log.d("ChoresActivity", "RootReference started");
-                    DatabaseReference rootGroupRef = rootReference.child("Groups");
-                    rootGroupRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot groupSnap: dataSnapshot.getChildren()){
-                                ArrayList<String> memb_ref = (ArrayList<String>)groupSnap.child("users").getValue();
-                                String c_group = groupSnap.child("groupname").getValue(String.class);
-                                Log.d("Group Snap Loop", ":" + c_group);
-                                if(memb_ref.contains(user.getEmail())){
-                                    group_name = c_group;
-                                }
-                            }
-                            Log.d("Exited Group Reference", ":" + group_name);
-                            DatabaseReference rootChoresRef= rootReference.child("Chores");
-                            rootChoresRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Log.d("testing", "doing shit");
-                                    for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
-                                        if(group_name.equals(snapShot.child("GROUP_ID").getValue(String.class))) {
-                                            String user = snapShot.child("USER_ID").getValue(String.class);
-                                            String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
-                                            Boolean chore_status = snapShot.child("CHORE_DONE").getValue(Boolean.class);
-                                            String id = snapShot.child("GROUP_ID").getValue(String.class);
-                                            String date = snapShot.child("ASS_DATE").getValue(String.class);
-                                            CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id, date);
-                                            items.add(obj);
-                                        }
-                                    }
-                                    for (int i=0; i<items.size(); i++) {
-                                        Log.d("View correct chores: ", items.get(i).CHORE_NAME);
-                                    }
-                                    createList(items);
-
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                }
-                            });
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (int i = 0; i < snapshot.child("users").getChildrenCount(); i++) {
+                        ArrayList<String> group_users = (ArrayList<String>) snapshot.child("users").getValue();
+                        if (group_users.contains(user.getEmail())) {
+                            group_name = (String) snapshot.child("groupname").getValue();
+                            received_group = true;
                         }
+                    }
+                }
+            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
 
-                    /*while(group_name == null){
-                        Log.d("ChoresActivity", "group_name is null");
-                        for (int i=0; i<group_ref.child("users").getChildrenCount(); i++) {
-                            String map =  group_ref.child("users").child(String.valueOf(i)).getValue(String.class);
-                            Log.d("Wtf is map: ", "Map: "+ map);
-                            if (map.equals(user.getEmail())) {
-                                group_name = (String) group_ref.child("groupname").getValue();
-                                Log.d("groupname ref:", group_name);
-                                break;
-                            }
-                            Log.d("ChoresChange", "Users" + i);
-                        }
-                    }*/
-                //}
+        databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                items.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.child("GROUP_ID").getValue(String.class).equals(group_name) && received_group) {
+                        String user = snapshot.child("USER_ID").getValue(String.class);
+                        String chore = snapshot.child("CHORE_NAME").getValue(String.class);
+                        Boolean chore_done = snapshot.child("CHORE_DONE").getValue(Boolean.class);
+                        String group_id = snapshot.child("GROUP_ID").getValue(String.class);
+                        String ass_date = snapshot.child("ASS_DATE").getValue(String.class);
+
+                        CHORES_OBJECT obj = new CHORES_OBJECT(user, chore, chore_done, group_id, ass_date);
+                        items.add(obj);
+                    }
+                }
+
+                // adapter shit
+                mAdapter = new ChoresAdapter(items);
+                recyclerView.setAdapter(mAdapter);
+                ((ChoresAdapter) mAdapter).setOnItemClickListener(new ChoresAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onChoreStatusClick(int position) {
+                        CHORES_OBJECT obj = items.get(position);
+                        databaseReference.child(obj.CHORE_NAME).setValue(new CHORES_OBJECT(obj.USER_ID, obj.CHORE_NAME, !obj.CHORE_DONE, obj.GROUP_ID, obj.ASS_DATE));
+//databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
+                    }
+
+                    @Override
+                    public void onImageClick(int position) {
+
+                    }
+                });
             }
 
             @Override
@@ -134,7 +192,87 @@ public class ChoresActivity extends AppCompatActivity {
 
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
+
+//        rootReference = FirebaseDatabase.getInstance().getReference();//reference the root
+//        rootReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    Log.d("ChoresActivity", "RootReference started");
+//                    DatabaseReference rootGroupRef = rootReference.child("Groups");
+//                    rootGroupRef.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            for(DataSnapshot groupSnap: dataSnapshot.getChildren()){
+//                                ArrayList<String> memb_ref = (ArrayList<String>)groupSnap.child("users").getValue();
+//                                String c_group = groupSnap.child("groupname").getValue(String.class);
+//                                Log.d("Group Snap Loop", ":" + c_group);
+//                                if(memb_ref.contains(user.getEmail())){
+//                                    group_name = c_group;
+//                                }
+//                            }
+//                            Log.d("Exited Group Reference", ":" + group_name);
+//                            DatabaseReference rootChoresRef= rootReference.child("Chores");
+//                            rootChoresRef.addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    Log.d("testing", "doing shit");
+//                                    for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
+//                                        if(group_name.equals(snapShot.child("GROUP_ID").getValue(String.class))) {
+//                                            String user = snapShot.child("USER_ID").getValue(String.class);
+//                                            String chore_name = snapShot.child("CHORE_NAME").getValue(String.class);
+//                                            Boolean chore_status = snapShot.child("CHORE_DONE").getValue(Boolean.class);
+//                                            String id = snapShot.child("GROUP_ID").getValue(String.class);
+//                                            String date = snapShot.child("ASS_DATE").getValue(String.class);
+//                                            CHORES_OBJECT obj = new CHORES_OBJECT(user, chore_name, chore_status, id, date);
+//                                            items.add(obj);
+//                                        }
+//                                    }
+//                                    for (int i=0; i<items.size(); i++) {
+//                                        Log.d("View correct chores: ", items.get(i).CHORE_NAME);
+//                                    }
+//                                    //createList(items);
+//
+//                                }
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                }
+//                            });
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        }
+//                    });
+//
+//
+//                    /*while(group_name == null){
+//                        Log.d("ChoresActivity", "group_name is null");
+//                        for (int i=0; i<group_ref.child("users").getChildrenCount(); i++) {
+//                            String map =  group_ref.child("users").child(String.valueOf(i)).getValue(String.class);
+//                            Log.d("Wtf is map: ", "Map: "+ map);
+//                            if (map.equals(user.getEmail())) {
+//                                group_name = (String) group_ref.child("groupname").getValue();
+//                                Log.d("groupname ref:", group_name);
+//                                break;
+//                            }
+//                            Log.d("ChoresChange", "Users" + i);
+//                        }
+//                    }*/
+//                //}
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//
+//
+//
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
 
         /*group_ref = FirebaseDatabase.getInstance().getReference("Groups");
 
@@ -213,110 +351,50 @@ public class ChoresActivity extends AppCompatActivity {
         });*/
 
 
-
-
-
-        FloatingActionButton fab = findViewById(R.id.fab1);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleDateFormat formatter = new SimpleDateFormat("MMM-dd-yyyy");
-                Date date = new Date(System.currentTimeMillis());
-                final String strDate = formatter.format(date);
-                firebaseAuth = FirebaseAuth.getInstance();
-                user = firebaseAuth.getCurrentUser();
-                Log.d("testing", user.toString());
-//                final DatabaseReference data = FirebaseDatabase.getInstance();
-//                DatabaseReference mDataBase;
-//                mDataBase = FirebaseDatabase.getInstance().getReference();
-
-
-                Log.d("testing", "about to write value");
-
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ChoresActivity.this);
-                mBuilder.setTitle("Add a chore!");
-                final EditText input = new EditText(ChoresActivity.this);
-                mBuilder.setView(input);
-
-                mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //m_Text = input.getText().toString();
-                        //items.add(new CHORES_OBJECT(user.getDisplayName(), input.getText().toString(), false));
-                        //myRef.child("Chores").child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getDisplayName(), input.getText().toString(), false));
-                        //items.add(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
-
-                         String mID = databaseReference.child(input.getText().toString()).push().getKey();
-
-                         //------------------------------------
-                        //databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false));
-                        databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
-                        System.out.println(mID);
-
-                        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groups");
-
-
-                    }
-                });
-                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                mBuilder.show();
-
-            }
-        });
-
-
-
-
     }
 
 
-
-        public void createList(ArrayList<CHORES_OBJECT> data_list) {
-
-        LinearLayout layout = findViewById(R.id.choresLayout);
-        layout.removeAllViews();
-
-        for (int i=0; i<data_list.size(); i++) {
-            TextView user =(TextView) new TextView(this);
-            TextView chore = (TextView) new TextView(this);
-            CheckBox checkBox = (CheckBox) new CheckBox(this);
-            Button button = new Button(this);
-            Log.d("ChoresObj", "Chore: " + i);
-            CHORES_OBJECT obj = data_list.get(i);
-
-            //if ((obj.GROUP_ID).equals(group_name)) {
-
-
-                user.setId(i);
-                user.setText("Chore assigned by: " + obj.USER_ID);
-
-                chore.setId(i);
-                chore.setText(obj.CHORE_NAME);
-
-                checkBox.setId(i);
-                checkBox.setChecked(obj.CHORE_DONE);
-                button.setText("View Details");
-
-
-                layout.addView(user);
-                setTextViewAttributes(user);
-                layout.addView(chore);
-                setTextViewAttributes(chore);
-                layout.addView(checkBox);
-                setCheckBoxAttributes(checkBox);
-                onCheckBoxClicked(checkBox, obj);
-                layout.addView(button);
-           // }
-
-        }
-        data_list.clear();
-    }
+//        public void createList(ArrayList<CHORES_OBJECT> data_list) {
+//
+//        LinearLayout layout = findViewById(R.id.choresLayout);
+//        layout.removeAllViews();
+//
+//        for (int i=0; i<data_list.size(); i++) {
+//            TextView user =(TextView) new TextView(this);
+//            TextView chore = (TextView) new TextView(this);
+//            CheckBox checkBox = (CheckBox) new CheckBox(this);
+//            Button button = new Button(this);
+//            Log.d("ChoresObj", "Chore: " + i);
+//            CHORES_OBJECT obj = data_list.get(i);
+//
+//            //if ((obj.GROUP_ID).equals(group_name)) {
+//
+//
+//                user.setId(i);
+//                user.setText("Chore assigned by: " + obj.USER_ID);
+//
+//                chore.setId(i);
+//                chore.setText(obj.CHORE_NAME);
+//
+//                checkBox.setId(i);
+//                checkBox.setChecked(obj.CHORE_DONE);
+//                //button.setText("View Details");
+//
+//
+//                layout.addView(user);
+//                setTextViewAttributes(user);
+//                layout.addView(chore);
+//                setTextViewAttributes(chore);
+//                layout.addView(checkBox);
+//                setCheckBoxAttributes(checkBox);
+//                onCheckBoxClicked(checkBox, obj);
+//                //layout.addView(button);
+//                layout.setBackgroundResource(R.drawable.black_border);
+//           // }
+//
+//        }
+//        data_list.clear();
+//    }
 
     public void onCheckBoxClicked(final CheckBox checkBox, CHORES_OBJECT object) {
         final CHORES_OBJECT object1 = object;
@@ -375,8 +453,6 @@ public class ChoresActivity extends AppCompatActivity {
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);
     }
-
-
 
 
 }

@@ -11,34 +11,36 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
 
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="90dp"-->
-            <!--android:padding="4dp" />-->
+            <ImageButton
+                android:id="@+id/imageButtonDeleteChore"
+                android:layout_width="33dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="8dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/deleteicon"
+                tools:layout_conversion_wrapHeight="134"
+                tools:layout_conversion_wrapWidth="146"
+                tools:layout_editor_absoluteY="26dp" />
 
             <TextView
                 android:id="@+id/textViewChoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_marginStart="36dp"
                 android:layout_marginTop="4dp"
                 android:text="Chore Name"
+                android:layout_toEndOf="@+id/imageButtonDeleteChore"
+                android:layout_marginLeft="15dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#000000"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageButtonDeleteChore"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_wrapHeight="79"
-                tools:layout_conversion_wrapWidth="154" />
-
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textViewAssDate"
@@ -51,57 +53,45 @@
                 android:text="Assigned Date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/textViewChoreName"
-                app:layout_constraintTop_toBottomOf="@id/textViewChoreName"
+                android:layout_below="@+id/textViewChoreName"
+                android:layout_toEndOf="@+id/imageButtonDeleteChore"
+                android:layout_marginLeft="20dp"
                 tools:layout_conversion_wrapHeight="50"
-                tools:layout_conversion_wrapWidth="78" />
+                tools:layout_conversion_wrapWidth="78"
+                tools:layout_editor_absoluteX="85dp" />
+            <!--app:layout_constraintTop_toBottomOf="@id/textViewChoreName"-->
 
             <TextView
                 android:id="@+id/textViewUserID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="3dp"
                 android:text="Assigned by: "
-                app:layout_constraintStart_toStartOf="@+id/textViewAssDate"
-                app:layout_constraintTop_toBottomOf="@id/textViewAssDate"
+                android:layout_below="@+id/textViewAssDate"
+                android:layout_toRightOf="@id/imageButtonDeleteChore"
+                android:layout_marginLeft="34dp"
                 tools:layout_conversion_wrapHeight="50"
-                tools:layout_conversion_wrapWidth="173" />
+                tools:layout_conversion_wrapWidth="173"
+                tools:layout_editor_absoluteX="93dp" />
 
-            <ImageButton
-                android:id="@+id/imageButtonDeleteChore"
-                android:layout_width="33dp"
-                android:layout_height="53dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.456"
-                app:srcCompat="@drawable/deleteicon"
-                tools:layout_conversion_wrapHeight="134"
-                tools:layout_conversion_wrapWidth="146" />
+
 
             <CheckBox
                 android:id="@+id/checkBoxChore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="top"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:textSize="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_toRightOf="@+id/textViewAssDate"
+                android:layout_marginStart="150dp"
+                android:gravity="top"/>
+                <!--android:scaleX="1.5"-->
+                <!--android:scaleY="1.5"-->
+                <!--android:textSize="0dp"-->
+                <!--/>-->
 
 
-        </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class JoinGroup extends AppCompatActivity {
 
@@ -79,7 +78,7 @@ public class JoinGroup extends AppCompatActivity {
 
 
 
-        Button join = (Button) findViewById(R.id.JoinGroupButton);
+        Button join = (Button) findViewById(R.id.group_choice_join);
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,52 +125,6 @@ public class JoinGroup extends AppCompatActivity {
 
                             }
 
-                            /*String pw = snapshot.child("grouppass").getValue(String.class);
-                            String groupname = snapshot.child("groupname").getValue(String.class);
-                            Iterable<DataSnapshot> obj = snapshot.getChildren();
-                            Log.d("onChange List Group", "Group: " + snapshot.child("groupname").getValue(String.class));
-                            for(DataSnapshot child : obj){
-                                if(child.getKey()=="grouppass"){
-
-                                }
-                                */
-
-
-                            /*if(groupName.getText().toString().equals(obj.getGROUPNAME())){
-                                Log.d("onChange Right Group", "Group: " + obj.getGROUPNAME());
-                                String pass = obj.getGROUPPASS();
-                                Log.d("onChange Right Group", " Group Pass: " + obj.getGROUPPASS());
-                                if(obj.getGROUPPASS().equals(groupPass.getText().toString())){
-
-                                    ArrayList<String> curUsers = obj.getUSERS();
-                                    curUsers.add(user.getEmail());
-                                    for(int i = 0; i<curUsers.size();i++){
-                                        Log.d("onChange joinGroup", "Users: " + curUsers.get(i));
-                                    }
-                                    GROUPS_OBJECT updatedGroup = new GROUPS_OBJECT(obj.getADMIN(), curUsers, obj.getCHORES(), obj.getGROUPNAME(), obj.getGROUPPASS());
-                                    databaseReference.child(obj.getGROUPNAME()).setValue(updatedGroup);
-                                    Toast.makeText(JoinGroup.this, "Group Joined!", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-
-                            }else{
-                                Log.d("onChange Wrong Group", "Group: " + obj.getGROUPNAME());
-                            }*/
-                            //get groupName
-                            //check groupPw
-
-                            /*if (pw.equals(groupPass.getText().toString())) {
-                                for (int i = 0; i < fire_list.size(); i++) {
-
-                                    System.out.println(fire_list.get(i).users.get(i));
-                                }
-                                //int index = fire_list.size()-1;
-                                //databaseReference.child(groupName.getText().toString()).child("users").child(String.valueOf(index)).setValue(user.getEmail());
-                                //Toast.makeText(JoinGroup.this, "Group Joined!", Toast.LENGTH_SHORT).show();
-                                //finish();
-                            } else {
-                                Toast.makeText(JoinGroup.this, "Invalid Group Pass/User", Toast.LENGTH_SHORT).show();
-                            }*/
                         }
                         if(!groupExists){
                             Toast.makeText(JoinGroup.this, "Group does not exist!" , Toast.LENGTH_SHORT).show();

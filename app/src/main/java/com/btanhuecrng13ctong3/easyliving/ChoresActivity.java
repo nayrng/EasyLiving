@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,6 +78,86 @@ public class ChoresActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         items = new ArrayList<>();
+
+        recyclerView.setHasFixedSize(true);
+
+
+        groupReference = FirebaseDatabase.getInstance().getReference("Groups");
+        groupReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (int i = 0; i < snapshot.child("users").getChildrenCount(); i++) {
+                        ArrayList<String> group_users = (ArrayList<String>) snapshot.child("users").getValue();
+                        if (group_users.contains(user.getEmail())) {
+                            Toast.makeText(ChoresActivity.this, "In group database!", Toast.LENGTH_SHORT).show();
+                            group_name = (String) snapshot.child("groupname").getValue();
+                            received_group = true;
+                        }
+                    }
+                }
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        items.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (snapshot.child("GROUP_ID").getValue(String.class).equals(group_name) && received_group) {
+                                Toast.makeText(ChoresActivity.this, "In chores database!", Toast.LENGTH_SHORT).show();
+
+                                String user = snapshot.child("USER_ID").getValue(String.class);
+                                String chore = snapshot.child("CHORE_NAME").getValue(String.class);
+                                Boolean chore_done = snapshot.child("CHORE_DONE").getValue(Boolean.class);
+                                String group_id = snapshot.child("GROUP_ID").getValue(String.class);
+                                String ass_date = snapshot.child("ASS_DATE").getValue(String.class);
+
+                                CHORES_OBJECT obj = new CHORES_OBJECT(user, chore, chore_done, group_id, ass_date);
+                                items.add(obj);
+                            }
+                        }
+
+                        // adapter
+                        mAdapter = new ChoresAdapter(items);
+                        recyclerView.setAdapter(mAdapter);
+                        ((ChoresAdapter) mAdapter).setOnItemClickListener(new ChoresAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+
+                            }
+
+                            @Override
+                            public void onChoreStatusClick(int position) {
+                                CHORES_OBJECT obj = items.get(position);
+                                databaseReference.child(obj.CHORE_NAME).setValue(new CHORES_OBJECT(obj.USER_ID, obj.CHORE_NAME, !obj.CHORE_DONE, obj.GROUP_ID, obj.ASS_DATE));
+//databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
+                            }
+
+                            @Override
+                            public void onImageClick(int position) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
+
+
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,76 +202,6 @@ public class ChoresActivity extends AppCompatActivity {
 
 
         });
-
-        groupReference = FirebaseDatabase.getInstance().getReference("Groups");
-        groupReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (int i = 0; i < snapshot.child("users").getChildrenCount(); i++) {
-                        ArrayList<String> group_users = (ArrayList<String>) snapshot.child("users").getValue();
-                        if (group_users.contains(user.getEmail())) {
-                            group_name = (String) snapshot.child("groupname").getValue();
-                            received_group = true;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chores");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                items.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.child("GROUP_ID").getValue(String.class).equals(group_name) && received_group) {
-                        String user = snapshot.child("USER_ID").getValue(String.class);
-                        String chore = snapshot.child("CHORE_NAME").getValue(String.class);
-                        Boolean chore_done = snapshot.child("CHORE_DONE").getValue(Boolean.class);
-                        String group_id = snapshot.child("GROUP_ID").getValue(String.class);
-                        String ass_date = snapshot.child("ASS_DATE").getValue(String.class);
-
-                        CHORES_OBJECT obj = new CHORES_OBJECT(user, chore, chore_done, group_id, ass_date);
-                        items.add(obj);
-                    }
-                }
-
-                // adapter shit
-                mAdapter = new ChoresAdapter(items);
-                recyclerView.setAdapter(mAdapter);
-                ((ChoresAdapter) mAdapter).setOnItemClickListener(new ChoresAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-
-                    }
-
-                    @Override
-                    public void onChoreStatusClick(int position) {
-                        CHORES_OBJECT obj = items.get(position);
-                        databaseReference.child(obj.CHORE_NAME).setValue(new CHORES_OBJECT(obj.USER_ID, obj.CHORE_NAME, !obj.CHORE_DONE, obj.GROUP_ID, obj.ASS_DATE));
-//databaseReference.child(input.getText().toString()).setValue(new CHORES_OBJECT(user.getEmail(), input.getText().toString(), false, group_name, strDate));
-                    }
-
-                    @Override
-                    public void onImageClick(int position) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
 
 
 //        rootReference = FirebaseDatabase.getInstance().getReference();//reference the root
